@@ -1,23 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+import {SearchIcon, Settings} from '@mui/icons-material';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  InputBase,
+  Search,
+  SearchIconWrapper,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+
+function App () {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h3"
+            noWrap
+            component="div"
+            className="navbar-title"
+          >
+            Online e-commerce
+          </Typography>
+          <Box>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <InputBase
+                placeholder="Search…"
+                inputProps={{'aria-label': 'search'}}
+              />
+            </Search>
+            <IconButton size="large" color="inherit">
+              <Settings />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }
