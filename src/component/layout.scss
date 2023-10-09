@@ -1,0 +1,29 @@
+.nav-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+
+  .search-box {
+    display: flex;
+    flex-direction: row;
+    padding-inline: calc(var(--spacing) * 2);
+    align-items: center;
+    position: relative;
+    border-radius: var(--spacing);
+    background-color: rgba(255, 255, 255, 0.15);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .search-icon-wrapper {
+      height: 100%;
+      position: absolute;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

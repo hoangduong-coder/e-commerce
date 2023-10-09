@@ -1,3 +1,5 @@
+import './layout.scss';
+
 import {Search, Settings} from '@mui/icons-material';
 import {
   AppBar,
@@ -20,14 +22,16 @@ const NavBar = () => {
         >
           Online e-commerce
         </Typography>
-        <Box className="">
-          <div>
+        <Box sx={{flexGrow: 1}} />
+        <Box className="nav-link">
+          <div className="search-box">
             <div className="search-icon-wrapper">
               <Search />
             </div>
             <InputBase
               placeholder="Search…"
               inputProps={{'aria-label': 'search'}}
+              color="inherit"
             />
           </div>
           <IconButton size="large" color="inherit">
