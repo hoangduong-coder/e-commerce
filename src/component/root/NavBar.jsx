@@ -11,12 +11,16 @@ import {
   Typography,
 } from '@mui/material';
 
+import {Link} from 'react-router-dom';
+
 const NavBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h5" noWrap>
-          Online e-commerce
+        <Typography variant="h5" noWrap component="div">
+          <Link to="/" className="navbar-home-link">
+            Online e-commerce
+          </Link>
         </Typography>
         <Box sx={{flexGrow: 1}} />
         <Box className="nav-link">
