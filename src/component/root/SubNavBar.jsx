@@ -19,6 +19,7 @@ const SubNavBar = () => {
         >
           All categories
         </Button>
+        <Button style={ButtonStyle}>New products</Button>
         <Button style={ButtonStyle}>New deals</Button>
         <Box sx={{flexGrow: 1}} />
         <Box className="nav-link">
