@@ -1,9 +1,10 @@
 import './layout.scss';
 
-import {Search, Settings} from '@mui/icons-material';
+import {AccountCircle, Search, ShoppingCart} from '@mui/icons-material';
 import {
   AppBar,
   Box,
+  Button,
   IconButton,
   InputBase,
   Toolbar,
@@ -14,12 +15,7 @@ const NavBar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography
-          variant="h5"
-          noWrap
-          component="div"
-          className="navbar-title"
-        >
+        <Typography variant="h5" noWrap>
           Online e-commerce
         </Typography>
         <Box sx={{flexGrow: 1}} />
@@ -35,8 +31,11 @@ const NavBar = () => {
             />
           </div>
           <IconButton size="large" color="inherit">
-            <Settings />
+            <ShoppingCart />
           </IconButton>
+          <Button size="large" color="inherit" startIcon={<AccountCircle />}>
+            Log in
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

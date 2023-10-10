@@ -12,6 +12,7 @@
     position: relative;
     border-radius: var(--spacing);
     background-color: rgba(255, 255, 255, 0.15);
+    margin-right: var(--spacing);
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.25);
@@ -24,6 +25,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .MuiInputBase-input {
+      padding-block: var(--spacing);
+      padding-right: var(--spacing);
+      padding-left: calc(1em + var(--spacing) * 2);
+      width: 30vw;
     }
   }
 }
