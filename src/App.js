@@ -1,15 +1,25 @@
-import './App.css';
+import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 
-import NavBar from './component/NavBar';
-import SubNavBar from './component/SubNavBar';
+import NotFoundPage from './component/root/NotFoundPage';
+import Root from './component/root/Root';
+import Products from './component/store/Products';
 
 function App () {
-  return (
-    <div className="App">
-      <NavBar />
-      <SubNavBar />
-    </div>
-  );
+  const router = createBrowserRouter ([
+    {
+      path: '/',
+      element: <Root />,
+      errorElement: <NotFoundPage />,
+      children: [
+        {
+          path: '/:categoryId',
+          element: <Products />,
+        },
+      ],
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
