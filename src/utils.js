@@ -43,3 +43,13 @@ export const CATEGORIES = [
     pictureUrl: picture7,
   },
 ];
+
+export const PHONEBRAND = [
+  'IPhone',
+  'Samsung',
+  'Xiaomi',
+  'Microsoft',
+  'Honor',
+  'Oppo',
+  'Nokia',
+];
