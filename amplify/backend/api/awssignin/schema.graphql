@@ -1,0 +1,55 @@
+enum OrderStatus {
+  PENDING
+  CANCELED
+  DONE
+}
+
+type Order {
+  id: ID!
+  itemId: ID!
+  discount: Float
+  total: Float!
+  status: OrderStatus
+  submitDate: AWSDate
+  deliveredDate: AWSDate
+}
+
+type User @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  email: AWSEmail!
+  address: String!
+  postalCode: String!
+  city: String!
+  phone: AWSPhone
+  orderHistory: Order
+}
+
+type OrderItem @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  productId: ID!
+  quantity: Int!
+  hasGuarantee: Boolean
+}
+
+type Description {
+  height: Float
+  weight: Float
+  depth: Float
+  characteristics: [String]
+  publicationDate: AWSDateTime
+  size: Float
+  compatibility: [String]
+}
+
+type Product @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  model: String!
+  availability: Int!
+  brand: String!
+  price: Float!
+  color: [String]
+  picture: String
+  description: Description
+  type: String
+}
