@@ -1,6 +1,6 @@
-import {Button, Popover} from '@mui/material';
+import { Button, Popover } from '@mui/material'
 
-import {useState} from 'react';
+import { useState } from 'react'
 
 const ProductsFilter = ({title, children}) => {
   const [anchorEl, setAnchorEl] = useState (null);
@@ -12,7 +12,7 @@ const ProductsFilter = ({title, children}) => {
   };
 
   return (
-    <div className="filter-box">
+    <>
       <Button
         variant="outlined"
         onClick={handleClick}
@@ -31,7 +31,7 @@ const ProductsFilter = ({title, children}) => {
       >
         {children}
       </Popover>
-    </div>
+    </>
   );
 };
 
