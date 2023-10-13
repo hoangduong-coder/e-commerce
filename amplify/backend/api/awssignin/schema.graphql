@@ -10,7 +10,6 @@ type Order {
   discount: Float
   total: Float!
   status: OrderStatus
-  submitDate: AWSDate
   deliveredDate: AWSDate
 }
 
