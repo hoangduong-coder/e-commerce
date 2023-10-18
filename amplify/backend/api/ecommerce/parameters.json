@@ -1,5 +1,5 @@
 {
-  "AppSyncApiName": "awssignin",
+  "AppSyncApiName": "ecommerce",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false
 }

@@ -1,10 +1,10 @@
-import picture3 from './assets/TV-category.jpg'
 import picture1 from './assets/computer_category.jpg'
-import picture4 from './assets/games-accessories.webp'
-import picture7 from './assets/kitchen.jpg'
 import picture2 from './assets/phone-accessories.webp'
+import picture3 from './assets/TV-category.jpg'
+import picture4 from './assets/games-accessories.webp'
 import picture5 from './assets/tablets.jpg'
 import picture6 from './assets/working-office.jpg'
+import picture7 from './assets/kitchen.jpg'
 
 export const CATEGORIES = [
   {
@@ -85,28 +85,28 @@ const checkValidation = (value, validation) => {
     switch (validation.type) {
       case "LessThanChar":
         return {
-          hasError: !(value.length <= validation.numValues[0]),
+          hasError: (value.length > validation.numValues[0]),
           errorMessage:
             validation.validationMessage ||
             `The value must be shorter than ${validation.numValues[0]}`,
         };
       case "GreaterThanChar":
         return {
-          hasError: !(value.length > validation.numValues[0]),
+          hasError: (value.length <= validation.numValues[0]),
           errorMessage:
             validation.validationMessage ||
             `The value must be longer than ${validation.numValues[0]}`,
         };
       case "LessThanNum":
         return {
-          hasError: !(value < validation.numValues[0]),
+          hasError: (value >= validation.numValues[0]),
           errorMessage:
             validation.validationMessage ||
             `The value must be less than ${validation.numValues[0]}`,
         };
       case "GreaterThanNum":
         return {
-          hasError: !(value > validation.numValues[0]),
+          hasError: (value <= validation.numValues[0]),
           errorMessage:
             validation.validationMessage ||
             `The value must be greater than ${validation.numValues[0]}`,
@@ -152,8 +152,8 @@ const checkValidation = (value, validation) => {
         };
       case "BeAfter":
         return {
-          hasError: !(
-            new Date(value) >
+          hasError: (
+            new Date(value) <=
             new Date(parseDateValidator(validation.strValues[0]))
           ),
           errorMessage:
@@ -162,14 +162,16 @@ const checkValidation = (value, validation) => {
         };
       case "BeBefore":
         return {
-          hasError: !(
-            new Date(value) <
+          hasError: (
+            new Date(value) >=
             new Date(parseDateValidator(validation.strValues[0]))
           ),
           errorMessage:
             validation.validationMessage ||
             `The value must be before ${validation.strValues[0]}`,
         };
+        default:
+          break;
     }
   }
   switch (validation.type) {
