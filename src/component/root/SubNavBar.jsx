@@ -2,11 +2,11 @@ import './layout.scss';
 
 import {AppBar, Box, Button, Menu, MenuItem, Toolbar} from '@mui/material';
 
+import {CATEGORIES} from '../../utils';
+import {Link} from 'react-router-dom';
 import {LocalShipping} from '@mui/icons-material';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useState} from 'react';
-import {Link} from 'react-router-dom';
-import {CATEGORIES} from '../../utils';
 
 const ButtonStyle = {
   textTransform: 'none',
@@ -54,6 +54,9 @@ const SubNavBar = () => {
 
         <Button style={ButtonStyle}>New products</Button>
         <Button style={ButtonStyle}>New deals</Button>
+        <Button style={ButtonStyle}>Create products</Button>
+        <Button style={ButtonStyle}>Manage products</Button>
+
         <Box sx={{flexGrow: 1}} />
         <Box className="nav-link">
           <Button

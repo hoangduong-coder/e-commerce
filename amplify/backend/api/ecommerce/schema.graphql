@@ -18,9 +18,15 @@ type Order {
   deliveredDate: AWSDate
 }
 
+enum Role {
+  ADMIN
+  USER
+}
+
 type User @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
+  role: Role
   email: AWSEmail!
   address: String!
   postalCode: String!
@@ -48,8 +54,9 @@ type Description {
 
 type Product @model @auth(rules: [{ allow: public }]) {
   id: ID!
+  title: String!
   model: String!
-  availability: Int!
+  availability: Boolean!
   brand: String!
   price: Float!
   color: [String]

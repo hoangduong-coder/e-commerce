@@ -1,8 +1,9 @@
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 
+import CreateForm from './component/admin/CreateForm';
 import NotFoundPage from './component/root/NotFoundPage';
-import Root from './component/root/Root';
 import Products from './component/store/Products';
+import Root from './component/root/Root';
 
 function App () {
   const router = createBrowserRouter ([
@@ -14,6 +15,10 @@ function App () {
         {
           path: '/:categoryId',
           element: <Products />,
+        },
+        {
+          path: '/admin/create_products',
+          element: <CreateForm />,
         },
       ],
     },
