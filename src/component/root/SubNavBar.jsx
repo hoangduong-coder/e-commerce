@@ -54,7 +54,11 @@ const SubNavBar = () => {
 
         <Button style={ButtonStyle}>New products</Button>
         <Button style={ButtonStyle}>New deals</Button>
-        <Button style={ButtonStyle}>Create products</Button>
+        <Button style={ButtonStyle}>
+          <Link className="category-menu-item" to="admin/create_products">
+            Create products
+          </Link>
+        </Button>
         <Button style={ButtonStyle}>Manage products</Button>
 
         <Box sx={{flexGrow: 1}} />
