@@ -1,16 +1,26 @@
+import './admin.css';
+
 import {
   Box,
   Button,
   Chip,
+  FormControl,
+  Grid,
   InputAdornment,
-  ListItem,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material';
 import React, {useState} from 'react';
 
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import {CATEGORIES} from '../../utils';
+
 function CreateForm () {
-  const [selectedColor, setSelectedColor] = useState ('#ffee00');
+  const [selectedColor, setSelectedColor] = useState ('#2979ff');
   const [productColors, setProductColors] = useState ([]);
+  const [typeOption, setTypeOption] = useState ({});
 
   const deleteColor = deletedData => {
     setProductColors (productColors.filter (color => color !== deletedData));
@@ -18,82 +28,139 @@ function CreateForm () {
   const createProduct = async event => {
     event.preventDefault ();
   };
+  const handleChangeType = event => {
+    setTypeOption (event.target.value);
+  };
 
   return (
     <div>
       <h1>New products</h1>
       <form onSubmit={createProduct}>
+        <Box mt={1}>
+          <h3>Basic details</h3>
+        </Box>
+        <Grid container spacing={2} marginBlock={1}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              className="create-form-textfield"
+              label="Title"
+              name="title"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              required
+              className="create-form-textfield"
+              label="Model"
+              name="model"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              required
+              className="create-form-textfield"
+              label="Brand"
+              name="brand"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <TextField
+              required
+              className="create-form-textfield"
+              label="Price"
+              type="number"
+              name="price"
+              startAdornment={
+                <InputAdornment position="start">€</InputAdornment>
+              }
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <FormControl required className="create-form-textfield">
+              <InputLabel>Product type</InputLabel>
+              <Select
+                value={typeOption.title}
+                label="Product type"
+                className="create-form-type-dropdown"
+                onChange={handleChangeType}
+              >
+                {CATEGORIES.map (category => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <TextField
           required
           fullWidth
-          id="create-form-textfield"
-          label="Title"
-          name="title"
+          className="create-form-textfield"
+          label="Description"
+          name="description"
+          multiline
+          rows={8}
+          sx={{marginBlock: 1}}
         />
-        <TextField
-          required
-          id="create-form-textfield"
-          label="Model"
-          name="model"
-        />
-        <TextField
-          required
-          id="create-form-textfield"
-          label="Brand"
-          name="brand"
-        />
-        <TextField
-          required
-          id="create-form-textfield"
-          label="Price"
-          type="number"
-          name="price"
-          startAdornment={
-            <InputAdornment position="start">
-              €
-            </InputAdornment>
-          }
-        />
-        <Box>
-          <TextField
-            sx={{width: '50%'}}
-            id="create-form-textfield"
-            label="Color"
-            type="color"
-            name="color"
-            value={selectedColor}
-            onChange={event => {
-              event.preventDefault ();
-              setSelectedColor (event.target.value);
-            }}
-          />
-          <Button
-            onClick={() => {
-              setProductColors ([...productColors, selectedColor]);
-            }}
-            variant="contained"
-          >
-            Add this color
-          </Button>
+        <Box mt={1}>
+          <h3>Select color</h3>
         </Box>
-
-        <Box>
-          <h3>Selected color</h3>
-          <div>
-            {productColors.map (color => (
-              <ListItem key={color}>
+        <Grid spacing={2} marginBlock={1} xs={5} container alignItems="stretch">
+          <Grid item xs={5}>
+            <TextField
+              sx={{width: '100%'}}
+              className="create-form-textfield"
+              label="Color"
+              type="color"
+              name="color"
+              value={selectedColor}
+              onChange={event => {
+                event.preventDefault ();
+                setSelectedColor (event.target.value);
+              }}
+            />
+          </Grid>
+          <Grid item marginLeft={2}>
+            <Button
+              onClick={() => {
+                setProductColors ([...productColors, selectedColor]);
+              }}
+              variant="contained"
+              className="add-color-button"
+            >
+              Add this color
+            </Button>
+          </Grid>
+        </Grid>
+        <div className="color-selection-box">
+          {productColors.length > 0
+            ? productColors.map (color => (
                 <Chip
+                  key={color}
                   label={color}
                   onDelete={() => deleteColor (color)}
-                  sx={{backgroundColor: color}}
+                  sx={{backgroundColor: color, marginRight: '1rem'}}
                 >
                   {color}
                 </Chip>
-              </ListItem>
-            ))}
-          </div>
+              ))
+            : <p>No selected color</p>}
+        </div>
+        <Box mt={1}>
+          <h3>Import product pictures</h3>
         </Box>
-
+        <Button
+          component="label"
+          variant="contained"
+          startIcon={<CloudUploadIcon />}
+          sx={{marginTop: 1}}
+        >
+          Upload file
+          <input type="file" className="create-form-image-input" />
+        </Button>
       </form>
     </div>
   );
