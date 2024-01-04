@@ -1,10 +1,9 @@
 import { Schema, model } from "mongoose";
 
-import Product from "./product";
-
 const orderItemSchema = new Schema({
   orderedProduct: {
-    type: Product,
+    type: Schema.Types.ObjectId,
+    ref: "Product",
     required: true
   },
   quantity: {
@@ -21,4 +20,4 @@ orderItemSchema.set('toJSON', {
   }
 })
 
-export default model("Order", orderItemSchema)
+export default model("OrderItem", orderItemSchema)
