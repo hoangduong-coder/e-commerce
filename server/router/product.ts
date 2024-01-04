@@ -1,23 +1,19 @@
-import Product from "../schema/product"
 import { Router } from "express"
+import Product from "../schema/product"
 
-const router = Router()
+const productRouter = Router()
 
-router.get("/", async (_req, res) => {
-  const products = await Product.find({})
+productRouter.get("/", async (req, res) => {
+  const category = req.query.category
+  const isDiscount = req.query.discount
+  const products = await Product.find()
+  if (isDiscount || category) {
+    return res.json(products.filter(productData => productData.productType === category || !!productData.discount))
+  }
   return res.json(products)
 })
 
-router.get("/:category", async (req, res) => {
-  const products = await Product.find({ productType: req.params.category })
-  if (products) {
-    return res.json(products)
-  } else {
-    res.status(404).end()
-  }
-})
-
-router.get("/:id", async (req, res) => {
+productRouter.get("/:id", async (req, res) => {
   const selectedProduct = await Product.findById(req.params.id)
   if (selectedProduct) {
     return res.json(selectedProduct)
@@ -25,3 +21,12 @@ router.get("/:id", async (req, res) => {
     res.status(404).end()
   }
 })
+
+productRouter.post("/", async (req, res) => {
+  const { body } = req
+  const newProduct = new Product({ ...body, discount: body.discount || 0 })
+  await newProduct.save()
+  res.status(201).json(newProduct.toJSON())
+})
+
+export default productRouter
