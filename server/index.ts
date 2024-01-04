@@ -3,7 +3,9 @@ import * as dotenv from "dotenv"
 import cors from "cors"
 import express from "express"
 import mongoose from "mongoose"
+import loginRouter from "./router/auth"
 import productRouter from "./router/product"
+import userRouter from "./router/user"
 
 const app = express()
 dotenv.config()
@@ -18,6 +20,9 @@ app.use(express.static("dist"))
 app.use(express.json())
 
 app.use('/api/products', productRouter)
+app.use('/api/users', userRouter)
+app.use('/api/auth', loginRouter)
+
 
 app.listen(process.env.PORT, () => {
   console.log("Welcome to my new e-commerce")
