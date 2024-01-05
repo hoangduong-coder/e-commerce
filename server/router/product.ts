@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { verifyAdmin } from "../helper/utils"
 import Product from "../schema/product"
 
 const productRouter = Router()
@@ -29,6 +30,7 @@ productRouter.get("/:id", async (req, res) => {
 
 productRouter.post("/", async (req, res) => {
   const { body } = req
+  verifyAdmin(req, res)
   const newProduct = new Product({ ...body, discount: body.discount || 0 })
   await newProduct.save()
   res.status(201).json(newProduct.toJSON())
@@ -36,6 +38,7 @@ productRouter.post("/", async (req, res) => {
 
 productRouter.put("/:id", async (req, res) => {
   const { body } = req
+  verifyAdmin(req, res)
   const updatedProduct = await Product.findByIdAndUpdate(req.params.id, body, {
     new: true,
   })
@@ -43,6 +46,7 @@ productRouter.put("/:id", async (req, res) => {
 })
 
 productRouter.delete("/:id", async (req, res) => {
+  verifyAdmin(req, res)
   await Product.findByIdAndDelete(req.params.id)
   res.status(204).send(`Deleted product ${req.params.id} successfully!`).end()
 })
