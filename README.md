@@ -1,6 +1,6 @@
 # E-commerce web app
 
-Stack: React, CSS/SCSS, NodeJS, Express, GraphQL
+Stack: React, CSS/SCSS, NodeJS, Express, REST APIs
 
 This project was bootstrapped with [Vite](https://github.com/vitejs/vite).
 
