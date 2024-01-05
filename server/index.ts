@@ -1,4 +1,5 @@
-import * as dotenv from "dotenv"
+import { handleError, unknownEndpoint } from "./helper/middleware"
+import { MONGO_URL, PORT } from "./helper/utils"
 
 import cors from "cors"
 import express from "express"
@@ -8,10 +9,9 @@ import productRouter from "./router/product"
 import userRouter from "./router/user"
 
 const app = express()
-dotenv.config()
 
 mongoose
-  .connect(process.env.MONGO_URL as string)
+  .connect(MONGO_URL)
   .then(() => console.log("Connected successfully"))
   .catch((error) => console.log(`Error in connecting MongoDB ${error}`))
 
@@ -23,7 +23,9 @@ app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/auth', loginRouter)
 
+app.use(unknownEndpoint)
+app.use(handleError)
 
-app.listen(process.env.PORT, () => {
+app.listen(PORT, () => {
   console.log("Welcome to my new e-commerce")
 })
