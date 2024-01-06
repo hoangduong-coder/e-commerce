@@ -7,22 +7,30 @@ const DeliveryType = {
 
 const orderSchema = new Schema(
   {
-    user: String,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     orders: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "OrderItem",
+          orderedProduct: {
+            type: Schema.Types.ObjectId,
+            ref: "Product",
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       required: true,
     },
     discountCode: String,
-    deliveryStatus: {
-      type: {
-        deliveryType: DeliveryType,
-        postalAddress: String,
-      },
+    deliveryType: {
+      type: DeliveryType,
       required: true,
     },
     price: {

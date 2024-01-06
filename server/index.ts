@@ -5,6 +5,7 @@ import cors from "cors"
 import express from "express"
 import mongoose from "mongoose"
 import loginRouter from "./router/auth"
+import orderRouter from "./router/order"
 import productRouter from "./router/product"
 import userRouter from "./router/user"
 
@@ -22,6 +23,7 @@ app.use(express.json())
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/auth', loginRouter)
+app.use("/api/orders", orderRouter)
 
 app.use(unknownEndpoint)
 app.use(handleError)
