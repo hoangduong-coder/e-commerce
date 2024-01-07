@@ -1,10 +1,5 @@
 import { Schema, model } from "mongoose"
 
-const DeliveryType = {
-  type: String,
-  enum: ["Normal", "Fast"],
-}
-
 const orderSchema = new Schema(
   {
     user: {
@@ -30,7 +25,8 @@ const orderSchema = new Schema(
     },
     discountCode: String,
     deliveryType: {
-      type: DeliveryType,
+      type: String,
+      enum: ["Normal", "Fast"],
       required: true,
     },
     price: {

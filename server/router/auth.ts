@@ -7,13 +7,15 @@ import User from "../schema/user"
 const loginRouter = Router()
 
 loginRouter.post("/", async (req, res) => {
-  const { body } = req.body
-  const user = await User.findOne({ email: body.email, role: body.role })
+  const user = await User.findOne({
+    email: req.body.email,
+    role: req.body.role,
+  })
   const isPasswordCorrect =
-    !user || typeof user === "object"
+    user === null
       ? false
       : //@ts-ignore
-      bcrypt.compare(body.password, user.passwordHash)
+      await bcrypt.compare(req.body.password, user.passwordHash)
 
   if (!(user && isPasswordCorrect)) {
     return res.status(401).json({

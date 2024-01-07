@@ -15,20 +15,19 @@ userRouter.get("/:id", async (req, res) => {
 })
 
 userRouter.post("/", async (req, res) => {
-  const { body } = req.body
-  if (passwordStrength(body.password).id < 2) {
+  if (passwordStrength(req.body.password).id < 2) {
     return res.status(400).json({ error: "Your password is not strong enough!" })
   } else {
-    const passwordHash = await bcrypt.hash(body.password, 10)
+    const passwordHash = await bcrypt.hash(req.body.password, 10)
     const user = new User({
-      name: body.name,
-      email: body.email,
+      name: req.body.name,
+      email: req.body.email,
       passwordHash: passwordHash,
-      streetAddress: body.streetAddress,
-      postalCode: body.postalCode,
-      city: body.city,
-      phone: body.phone,
-      role: body.role
+      streetAddress: req.body.streetAddress,
+      postalCode: req.body.postalCode,
+      city: req.body.city,
+      phone: req.body.phone,
+      role: req.body.role
     })
     const savedUser = await user.save()
     res.status(201).json(savedUser)
@@ -36,14 +35,13 @@ userRouter.post("/", async (req, res) => {
 })
 
 userRouter.put("/:id", async (req, res) => {
-  const { body } = req.body
   const user = await User.findById(req.params.id)
-  if (body.password && user && passwordStrength(body.password).id >= 2) {
-    const passwordHash = await bcrypt.hash(body.password, 10)
+  if (req.body.password && user && passwordStrength(req.body.password).id >= 2) {
+    const passwordHash = await bcrypt.hash(req.body.password, 10)
     user.passwordHash = passwordHash
     await user.save()
   }
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, { ...body }, { new: true })
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true })
   res.json(200).json(updatedUser)
 })
 

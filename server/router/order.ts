@@ -29,12 +29,11 @@ orderRouter.get("/", async (req, res) => {
 })
 
 orderRouter.post("/", async (req, res) => {
-  const { body } = req.body
-  let user = await User.findOne({ email: body.email })
+  let user = await User.findOne({ email: req.body.email })
   const orderList: any[] = []
   let totalPrice: number = 0
 
-  body.orders.forEach(async (orderItem) => {
+  req.body.orders.forEach(async (orderItem: any) => {
     const selectedProduct = await Product.findById(orderItem.product.id)
     if (selectedProduct !== null) {
       orderList.push({
@@ -51,12 +50,12 @@ orderRouter.post("/", async (req, res) => {
 
   if (!user) {
     const newUser = new User({
-      name: body.name,
-      email: body.email,
-      streetAddress: body.streetAddress,
-      postalCode: body.postalCode,
-      city: body.city,
-      phone: body.phone,
+      name: req.body.name,
+      email: req.body.email,
+      streetAddress: req.body.streetAddress,
+      postalCode: req.body.postalCode,
+      city: req.body.city,
+      phone: req.body.phone,
       role: "Visitor",
     })
     user = await newUser.save()
@@ -65,8 +64,8 @@ orderRouter.post("/", async (req, res) => {
   const order = new Order({
     user: user,
     orders: orderList,
-    discountCode: body.discountCode,
-    deliveryType: body.deliveryType,
+    discountCode: req.body.discountCode,
+    deliveryType: req.body.deliveryType,
     price: totalPrice,
     status: "Progress",
   })
@@ -78,9 +77,8 @@ orderRouter.post("/", async (req, res) => {
 })
 
 orderRouter.put("/:id", async (req, res) => {
-  const { body } = req.body
   verifyAdmin(req, res)
-  const updatedOrder = await Order.findByIdAndUpdate(req.params.id, body, {
+  const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   })
   res.status(200).json(updatedOrder)

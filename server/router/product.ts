@@ -29,17 +29,15 @@ productRouter.get("/:id", async (req, res) => {
 })
 
 productRouter.post("/", async (req, res) => {
-  const { body } = req
   verifyAdmin(req, res)
-  const newProduct = new Product({ ...body, discount: body.discount || 0 })
+  const newProduct = new Product({ ...req.body, discount: req.body.discount || 0 })
   await newProduct.save()
   res.status(201).json(newProduct.toJSON())
 })
 
 productRouter.put("/:id", async (req, res) => {
-  const { body } = req
   verifyAdmin(req, res)
-  const updatedProduct = await Product.findByIdAndUpdate(req.params.id, body, {
+  const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   })
   res.status(200).json(updatedProduct)
