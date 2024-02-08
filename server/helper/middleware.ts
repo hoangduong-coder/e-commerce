@@ -1,14 +1,10 @@
-import { NextFunction, Response } from "express"
+import { Request, Response } from "express"
 
-export const unknownEndpoint = (response: Response) => {
+export const unknownEndpoint = (_request: Request, response: Response) => {
   response.status(404).json({ error: "Unknown endpoint" })
 }
 
-export const handleError = (
-  error: any,
-  response: Response,
-  next: NextFunction
-) => {
+export const handleError = (error: any, response: Response) => {
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformed id" })
   } else if (error.name === "ValidationError") {
@@ -23,6 +19,4 @@ export const handleError = (
     console.log("Unexpected error: ", error)
     return response.status(500).json({ error: "Internal server error." })
   }
-
-  next(error)
 }

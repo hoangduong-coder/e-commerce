@@ -30,13 +30,14 @@ const productSchema = new Schema(
       required: true,
     },
     height: Number,           //By mm
+    width: Number,            //By mm
     weight: Number,           //By grams
     depth: Number,            //By mm
     batteryCharacteristics: String,
     screenSize: Number,       //By inches
     screenResolution: String,
     compatibility: String,    //Available connectors info: e.g., Bluetooth, Wifi, 4G-5G, USB Type C, HDMI, etc.
-    innerMemory: Number,      //By GB 
+    innerMemory: [Number],      //By GB 
     ramMemory: Number,        //By GB
     warrantyLength: Number,   //by months
     otherFeature: String,

@@ -29,24 +29,36 @@ productRouter.get("/:id", async (req, res) => {
 })
 
 productRouter.post("/", async (req, res) => {
-  verifyAdmin(req, res)
-  const newProduct = new Product({ ...req.body, discount: req.body.discount || 0 })
-  await newProduct.save()
-  res.status(201).json(newProduct.toJSON())
+  try {
+    await verifyAdmin(req, res)
+    const newProduct = new Product({ ...req.body, discount: req.body.discount || 0 })
+    await newProduct.save()
+    res.status(201).json(newProduct.toJSON())
+  } catch (error: any) {
+    res.status(401).json({ error: error.message })
+  }
 })
 
 productRouter.put("/:id", async (req, res) => {
-  verifyAdmin(req, res)
-  const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  })
-  res.status(200).json(updatedProduct)
+  try {
+    await verifyAdmin(req, res)
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    })
+    res.status(200).json(updatedProduct)
+  } catch (error: any) {
+    res.status(401).json({ error: error.message })
+  }
 })
 
 productRouter.delete("/:id", async (req, res) => {
-  verifyAdmin(req, res)
-  await Product.findByIdAndDelete(req.params.id)
-  res.status(204).send(`Deleted product ${req.params.id} successfully!`).end()
+  try {
+    await verifyAdmin(req, res)
+    await Product.findByIdAndDelete(req.params.id)
+    res.status(204).send(`Deleted product ${req.params.id} successfully!`)
+  } catch (error: any) {
+    res.status(401).json({ error: error.message })
+  }
 })
 
 export default productRouter

@@ -19,14 +19,15 @@ const orderSchema = new Schema(
             type: Number,
             required: true,
           },
+          selectedInnerMemory: Number
         },
       ],
       required: true,
     },
-    discountCode: String,
+    //discountCode: String,
     deliveryType: {
       type: String,
-      enum: ["Normal", "Fast"],
+      enum: ["None", "Normal", "Fast"],
       required: true,
     },
     price: {
@@ -35,7 +36,7 @@ const orderSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ["Progress", "Pending", "Cancelled", "Received"],
+      enum: ["Progress", "Delivered", "Cancelled", "Received"],
       required: true,
     },
   },

@@ -13,7 +13,7 @@ orderRouter.get("/", async (req, res) => {
   const decodedToken = authorizedToken
     ? (jwt.verify(authorizedToken, SECRET_KEY) as JwtPayload)
     : null
-  if (!decodedToken || decodedToken === null || !decodedToken.id) {
+  if (!decodedToken?.id) {
     return res.status(401).json({ error: "Token invalid" })
   }
 
@@ -33,20 +33,36 @@ orderRouter.post("/", async (req, res) => {
   const orderList: any[] = []
   let totalPrice: number = 0
 
-  req.body.orders.forEach(async (orderItem: any) => {
-    const selectedProduct = await Product.findById(orderItem.product.id)
+  for (const orderItem of req.body.orders) {
+    const selectedProduct = await Product.findById(orderItem.productID)
     if (selectedProduct !== null) {
+      const deviceMemory = selectedProduct.innerMemory.find(productMemo => productMemo === orderItem.selectedProductMemo)
       orderList.push({
-        orderedProduct: selectedProduct.id,
+        orderedProduct: selectedProduct._id,
         quantity: orderItem.quantity,
+        selectedInnerMemory: deviceMemory ?? selectedProduct.innerMemory.at(-1)
       })
+
       if (selectedProduct.discount) {
         totalPrice += selectedProduct.price * (1 - selectedProduct.discount)
       } else {
         totalPrice += selectedProduct.price
       }
     }
-  })
+  }
+
+  switch (req.body.deliveryType) {
+    case "Normal": {
+      totalPrice += 4.9
+      break
+    }
+    case "Fast": {
+      totalPrice += 11.9
+      break
+    }
+    default:
+      break
+  }
 
   if (!user) {
     const newUser = new User({
@@ -63,44 +79,48 @@ orderRouter.post("/", async (req, res) => {
 
   const order = new Order({
     user: user,
-    orders: orderList,
-    discountCode: req.body.discountCode,
+    orders: [...orderList],
     deliveryType: req.body.deliveryType,
     price: totalPrice,
     status: "Progress",
   })
 
   const savedOrder = await order.save()
-  user.orderHistory = user.orderHistory.concat(savedOrder._id)
-  await user.save()
   res.status(201).json(savedOrder)
 })
 
 orderRouter.put("/:id", async (req, res) => {
-  verifyAdmin(req, res)
-  const updatedOrder = await Order.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  })
-  res.status(200).json(updatedOrder)
+  try {
+    await verifyAdmin(req, res)
+    const updatedOrder = await Order.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    )
+    res.status(200).json(updatedOrder)
+  } catch (error: any) {
+    res.status(401).json({ error: error.message })
+  }
 })
 
 orderRouter.delete("/:id", async (req, res) => {
   const authorizedToken = req.headers["authorization"]
   const decodedToken = authorizedToken
-    ? (jwt.verify(authorizedToken, SECRET_KEY) as JwtPayload)
+    ? (jwt.verify(authorizedToken.slice(7), SECRET_KEY) as JwtPayload)
     : null
-  if (!decodedToken || decodedToken === null || !decodedToken.id) {
+  if (!decodedToken?.id) {
     return res.status(401).json({ error: "Token invalid" })
   }
 
   const user = await User.findById(decodedToken.id)
-
-  if (user) {
-    await Order.findByIdAndDelete(req.params.id)
-    const newUserOrderHistory = user.orderHistory.filter(
-      (orderData) => orderData._id.toString() !== req.params.id
-    )
-    user.orderHistory = newUserOrderHistory
+  const order = await Order.findById(req.params.id)
+  if (
+    user?._id.toString() === order?.user._id.toString() ||
+    user?.role === "Admin"
+  ) {
+    await Order.deleteOne({ _id: order?._id })
     res.status(204).send(`Deleted product ${req.params.id} successfully!`).end()
   } else {
     res.status(401).json({ error: "No user found" }).end()

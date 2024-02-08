@@ -28,10 +28,6 @@ const userSchema = new Schema(
       required: true,
     },
     phone: String,
-    orderHistory: [{
-      type: Schema.Types.ObjectId,
-      ref: "Order"
-    }],
     avatar: String,
     role: {
       type: String,
