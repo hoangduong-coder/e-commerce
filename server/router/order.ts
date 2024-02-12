@@ -36,11 +36,13 @@ orderRouter.post("/", async (req, res) => {
   for (const orderItem of req.body.orders) {
     const selectedProduct = await Product.findById(orderItem.productID)
     if (selectedProduct !== null) {
-      const deviceMemory = selectedProduct.innerMemory.find(productMemo => productMemo === orderItem.selectedProductMemo)
+      const deviceMemory = selectedProduct.innerMemory.find(
+        (productMemo) => productMemo === orderItem.selectedProductMemo
+      )
       orderList.push({
         orderedProduct: selectedProduct._id,
         quantity: orderItem.quantity,
-        selectedInnerMemory: deviceMemory ?? selectedProduct.innerMemory.at(-1)
+        selectedInnerMemory: deviceMemory ?? selectedProduct.innerMemory.at(-1),
       })
 
       if (selectedProduct.discount) {
@@ -72,7 +74,6 @@ orderRouter.post("/", async (req, res) => {
       postalCode: req.body.postalCode,
       city: req.body.city,
       phone: req.body.phone,
-      role: "Visitor",
     })
     user = await newUser.save()
   }
@@ -116,10 +117,7 @@ orderRouter.delete("/:id", async (req, res) => {
 
   const user = await User.findById(decodedToken.id)
   const order = await Order.findById(req.params.id)
-  if (
-    user?._id.toString() === order?.user._id.toString() ||
-    user?.role === "Admin"
-  ) {
+  if (user?._id.toString() === order?.user._id.toString()) {
     await Order.deleteOne({ _id: order?._id })
     res.status(204).send(`Deleted product ${req.params.id} successfully!`).end()
   } else {
