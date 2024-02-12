@@ -74,6 +74,7 @@ orderRouter.post("/", async (req, res) => {
       postalCode: req.body.postalCode,
       city: req.body.city,
       phone: req.body.phone,
+      role: "Visitor",
     })
     user = await newUser.save()
   }
@@ -117,7 +118,10 @@ orderRouter.delete("/:id", async (req, res) => {
 
   const user = await User.findById(decodedToken.id)
   const order = await Order.findById(req.params.id)
-  if (user?._id.toString() === order?.user._id.toString()) {
+  if (
+    user?._id.toString() === order?.user._id.toString() ||
+    user?.role === "Admin"
+  ) {
     await Order.deleteOne({ _id: order?._id })
     res.status(204).send(`Deleted product ${req.params.id} successfully!`).end()
   } else {

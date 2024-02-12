@@ -28,7 +28,12 @@ const userSchema = new Schema(
       required: true,
     },
     phone: String,
-    avatar: String
+    avatar: String,
+    role: {
+      type: String,
+      enum: ["Admin", "Visitor"],
+      required: true
+    }
   },
   { timestamps: true }
 )
