@@ -1,4 +1,4 @@
-import { CreateOrderProps, GetProductProps } from '../types/request';
+import { CreateOrderProps, GetProductProps } from 'types/request';
 import { orderApi, productApi } from "../utils";
 
 import axios from "axios";

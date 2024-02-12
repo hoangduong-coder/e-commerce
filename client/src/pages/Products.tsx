@@ -1,4 +1,4 @@
-import './store.scss';
+import "components/store/store.scss"
 
 import {
   Box,
@@ -11,38 +11,39 @@ import {
   MenuList,
   Select,
   Slider,
-} from '@mui/material';
-import {CATEGORIES, PHONEBRAND} from '../../utils';
+} from "@mui/material"
+import { CATEGORIES, PHONEBRAND } from "../utils"
 
-import {useState} from 'react';
-import {useParams} from 'react-router-dom';
-import ProductsFilter from './ProductsFilter';
+import { useState } from "react"
+import { useParams } from "react-router-dom"
+import ProductsFilter from "../components/store/ProductsFilter"
 
 const Products = () => {
-  const {categoryId} = useParams ();
-  const categoryTitle = CATEGORIES.find (category => category.id === categoryId)
-    .title;
-  const [sortOption, setSortOption] = useState ('');
-  const [price, setPrice] = useState ([10, 100]);
-  const [selectedBrand, setSelectedBrand] = useState ([]);
-  const handleChangeOption = event => {
-    setSortOption (event.target.value);
-  };
+  const { categoryId } = useParams()
+  const categoryTitle = CATEGORIES.find(
+    (category) => category.id === categoryId
+  ).title
+  const [sortOption, setSortOption] = useState("")
+  const [price, setPrice] = useState([10, 100])
+  const [selectedBrand, setSelectedBrand] = useState([])
+  const handleChangeOption = (event) => {
+    setSortOption(event.target.value)
+  }
   const handleChangePrice = (event, newPriceRange) => {
-    event.preventDefault ();
-    setPrice (newPriceRange);
-  };
-  const priceText = value => {
-    return `€${value}`;
-  };
-  const handleChangeBrands = event => {
-    event.preventDefault ();
-    setSelectedBrand (
-      typeof event.target.value === 'string'
-        ? event.target.value.split (',')
+    event.preventDefault()
+    setPrice(newPriceRange)
+  }
+  const priceText = (value) => {
+    return `€${value}`
+  }
+  const handleChangeBrands = (event) => {
+    event.preventDefault()
+    setSelectedBrand(
+      typeof event.target.value === "string"
+        ? event.target.value.split(",")
         : event.target.value
-    );
-  };
+    )
+  }
   return (
     <div>
       <h1>{categoryTitle}</h1>
@@ -53,11 +54,11 @@ const Products = () => {
               <MenuList
                 value={selectedBrand}
                 onChange={handleChangeBrands}
-                renderValue={selected => selected.join (', ')}
+                renderValue={(selected) => selected.join(", ")}
               >
-                {PHONEBRAND.map (name => (
+                {PHONEBRAND.map((name) => (
                   <MenuItem key={name} value={name}>
-                    <Checkbox checked={selectedBrand.indexOf (name) > -1} />
+                    <Checkbox checked={selectedBrand.indexOf(name) > -1} />
                     <ListItemText primary={name} />
                   </MenuItem>
                 ))}
@@ -69,7 +70,7 @@ const Products = () => {
           <ProductsFilter title={`Price: From €${price[0]} to €${price[1]}`}>
             <Box className="price-slider">
               <Slider
-                getAriaLabel={() => 'Price range'}
+                getAriaLabel={() => "Price range"}
                 value={price}
                 max={1000}
                 onChange={handleChangePrice}
@@ -79,11 +80,11 @@ const Products = () => {
                 marks={[
                   {
                     value: 0,
-                    label: '€0',
+                    label: "€0",
                   },
                   {
                     value: 1000,
-                    label: '€1000',
+                    label: "€1000",
                   },
                 ]}
               />
@@ -116,6 +117,6 @@ const Products = () => {
         </Grid>
       </Grid>
     </div>
-  );
-};
-export default Products;
+  )
+}
+export default Products

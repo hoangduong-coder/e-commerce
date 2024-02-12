@@ -1,17 +1,17 @@
 import "./layout.scss"
 
 import { AppBar, Box, Button, Menu, MenuItem, Toolbar } from "@mui/material"
+import { MouseEvent, useState } from "react"
 
 import { LocalShipping } from "@mui/icons-material"
 import MenuIcon from "@mui/icons-material/Menu"
-import { useState } from "react"
 import { Link } from "react-router-dom"
 import { CATEGORIES } from "../../utils"
 
 const SubNavBar = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
-  const handleMenu = (event) => {
+  const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -46,16 +46,8 @@ const SubNavBar = () => {
             ))}
           </Menu>
         </div>
-
         <Button>New products</Button>
         <Button>New deals</Button>
-        <Button>
-          <Link className="category-menu-item" to="admin/create_products">
-            Create products
-          </Link>
-        </Button>
-        <Button>Manage products</Button>
-
         <Box sx={{ flexGrow: 1 }} />
         <Box className="nav-link">
           <Button size="large" color="inherit" startIcon={<LocalShipping />}>
