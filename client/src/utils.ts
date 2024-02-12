@@ -53,3 +53,8 @@ export const PHONEBRAND = [
   "Oppo",
   "Nokia",
 ]
+
+export const orderApi = "/api/orders"
+export const productApi = "/api/products"
+export const userApi = "/api/users"
+export const loginApi = "/api/auth"
