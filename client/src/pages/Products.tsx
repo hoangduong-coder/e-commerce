@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import "components/store/store.scss"
 
 import {
@@ -12,30 +14,67 @@ import {
   Select,
   Slider,
 } from "@mui/material"
-import { CATEGORIES, PHONEBRAND } from "../utils"
+import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
+import { useEffect, useState } from "react"
 
-import { useState } from "react"
-import { useParams } from "react-router-dom"
+import { CATEGORIES } from "../utils"
+import { Category } from "types/product"
 import ProductsFilter from "../components/store/ProductsFilter"
+import { initializeProducts } from "reduxStore/productSlice"
+import { useParams } from "react-router-dom"
 
 const Products = () => {
   const { categoryId } = useParams()
-  const categoryTitle = CATEGORIES.find(
-    (category) => category.id === categoryId
-  ).title
+  const dispatch = useAppDispatch()
+  const productList = useAppSelector((state) =>
+    state.products.loading !== "idle" ? state.products.all : []
+  )
+  const [brandList, setBrandList] = useState<string[]>([])
+  const [category, setCategory] = useState<Category>({
+    id: "",
+    title: "",
+    pictureUrl: "",
+    type: "",
+  })
+
   const [sortOption, setSortOption] = useState("")
   const [price, setPrice] = useState([10, 100])
-  const [selectedBrand, setSelectedBrand] = useState([])
+  const [selectedBrand, setSelectedBrand] = useState<string[]>([])
+
+  useEffect(() => {
+    const findCategory = CATEGORIES.find((item) => item.id === categoryId)
+    if (findCategory) {
+      setCategory(findCategory)
+      dispatch(initializeProducts({ category: findCategory.type }))
+    }
+  }, [categoryId])
+
+  useEffect(() => {
+    if (productList?.length > 0) {
+      const brands = Array.from(
+        new Set(
+          productList.map((product) => {
+            return product.brand
+          })
+        )
+      )
+      setBrandList(brands)
+    }
+  }, [brandList])
+
   const handleChangeOption = (event) => {
     setSortOption(event.target.value)
   }
+
   const handleChangePrice = (event, newPriceRange) => {
     event.preventDefault()
     setPrice(newPriceRange)
   }
+
   const priceText = (value) => {
     return `€${value}`
   }
+
   const handleChangeBrands = (event) => {
     event.preventDefault()
     setSelectedBrand(
@@ -44,9 +83,10 @@ const Products = () => {
         : event.target.value
     )
   }
+
   return (
     <div>
-      <h1>{categoryTitle}</h1>
+      <h1>{category.title}</h1>
       <Grid container spacing={2} marginTop={1} className="filter-container">
         <Grid item xs={5}>
           <ProductsFilter title={`Brand: ${selectedBrand.length} selected`}>
@@ -56,7 +96,7 @@ const Products = () => {
                 onChange={handleChangeBrands}
                 renderValue={(selected) => selected.join(", ")}
               >
-                {PHONEBRAND.map((name) => (
+                {brandList.map((name) => (
                   <MenuItem key={name} value={name}>
                     <Checkbox checked={selectedBrand.indexOf(name) > -1} />
                     <ListItemText primary={name} />
