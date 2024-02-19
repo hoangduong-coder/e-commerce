@@ -1,76 +1,27 @@
-import { Google, Visibility, VisibilityOff } from "@mui/icons-material"
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material"
-import { ChangeEvent, useState } from "react"
+import "./pages.css"
 
-import { MouseEvent } from "react"
+import { Button, Typography } from "@mui/material"
 
-const SignInForm = () => {
-  const [email, setEmail] = useState<string>("")
-  const [password, setPassword] = useState<string>("")
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+import { Google } from "@mui/icons-material"
+import SignInForm from "components/auth/SignInForm"
 
-  const handleShowPassword = () => {
-    setShowPassword((currentStatus) => !currentStatus)
-  }
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-  }
-
-  const submitForm = () => {}
-
+const SignIn = () => {
   return (
-    <form>
-      <TextField
-        margin="normal"
-        label="email"
-        fullWidth
-        value={email}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setEmail(e.target.value)
-        }}
-      />
-      <FormControl variant="outlined">
-        <InputLabel>Password</InputLabel>
-        <OutlinedInput
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-          value={password}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setPassword(e.target.value)
-          }}
-        />
-      </FormControl>
-      <div>
-        <Button onClick={submitForm}>Sign in</Button>
-        <Button onClick={submitForm}>Reset</Button>
+    <div className="login-box">
+      <Typography variant="h4">Sign in</Typography>
+      <SignInForm />
+      <div className="login-box-alternatives">
+        <p className="login-box-alternatives-text">Or sign in with</p>
+        <Button variant="outlined" startIcon={<Google />}>
+          Google
+        </Button>
       </div>
-      <Button>
-        <Google />
-        Sign in with Google
-      </Button>
-    </form>
+      <div className="login-box-alternatives">
+        <p className="login-box-alternatives-text">Doesn't have account?</p>
+        <Button>Sign up here</Button>
+      </div>
+    </div>
   )
 }
 
-export default SignInForm
+export default SignIn

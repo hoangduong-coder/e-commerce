@@ -37,9 +37,11 @@ const NavBar = () => {
           <IconButton size="large" color="inherit">
             <ShoppingCart />
           </IconButton>
-          <Button size="large" color="inherit" startIcon={<AccountCircle />}>
-            Log in
-          </Button>
+          <Link to="/signin" className="navbar-home-link">
+            <Button size="large" color="inherit" startIcon={<AccountCircle />}>
+              Log in
+            </Button>
+          </Link>
         </Box>
       </Toolbar>
     </AppBar>

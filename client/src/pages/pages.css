@@ -1,0 +1,17 @@
+.login-box {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.login-box-alternatives {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-box-alternatives-text {
+  margin-right: 8px;
+}
