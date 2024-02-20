@@ -1,8 +1,8 @@
-import { AppDispatch } from "./store"
-import { GetProductProps } from "types/request"
-import { ProductTypeProps } from "types/product"
 import { createSlice } from "@reduxjs/toolkit"
 import { getProduct } from "api/orderAndProduct"
+import { ProductTypeProps } from "types/product"
+import { GetProductProps } from "types/request"
+import { AppDispatch } from "./store"
 
 const initialState: ProductTypeProps = {
   all: [],

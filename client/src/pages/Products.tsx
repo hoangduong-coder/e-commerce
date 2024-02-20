@@ -1,33 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import "components/store/store.scss"
 
 import {
+  Autocomplete,
   Box,
-  Checkbox,
   FormControl,
   Grid,
   InputLabel,
-  ListItemText,
   MenuItem,
-  MenuList,
   Select,
+  SelectChangeEvent,
   Slider,
+  TextField,
 } from "@mui/material"
-import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
+import { Category, Product } from "types/product"
 
-import { CATEGORIES } from "../utils"
-import { Category } from "types/product"
-import ProductsFilter from "../components/store/ProductsFilter"
-import { initializeProducts } from "reduxStore/productSlice"
 import { useParams } from "react-router-dom"
+import { initializeProducts } from "reduxStore/productSlice"
+import ProductsFilter from "../components/store/ProductsFilter"
+import { CATEGORIES } from "../utils"
 
 const Products = () => {
   const { categoryId } = useParams()
   const dispatch = useAppDispatch()
-  const productList = useAppSelector((state) =>
-    state.products.loading !== "idle" ? state.products.all : []
+  const initialProductList = useAppSelector((state) => state.products.all)
+
+  const [productList, setProductList] = useState<Array<Product>>(
+    initialProductList || []
   )
   const [brandList, setBrandList] = useState<string[]>([])
   const [category, setCategory] = useState<Category>({
@@ -36,9 +39,10 @@ const Products = () => {
     pictureUrl: "",
     type: "",
   })
+  const [price, setPrice] = useState([10, 100])
 
   const [sortOption, setSortOption] = useState("")
-  const [price, setPrice] = useState([10, 100])
+  const [selectedPrice, setSelectedPrice] = useState([10, 100])
   const [selectedBrand, setSelectedBrand] = useState<string[]>([])
 
   useEffect(() => {
@@ -59,29 +63,52 @@ const Products = () => {
         )
       )
       setBrandList(brands)
-    }
-  }, [brandList])
 
-  const handleChangeOption = (event) => {
+      const priceList = Array.from(
+        new Set(
+          productList.map((product) => {
+            return product.price
+          })
+        )
+      )
+      setPrice([Math.min(...priceList), Math.max(...priceList)])
+    }
+  }, [productList])
+
+  useEffect(() => {
+    if (productList?.length > 0 && selectedBrand.length > 0) {
+      setProductList(
+        productList.filter((product) => selectedBrand.includes(product.brand))
+      )
+    }
+  }, [selectedBrand])
+
+  useEffect(() => {
+    if (productList?.length > 0) {
+      setProductList(
+        productList.filter(
+          (product) =>
+            product.price >= selectedPrice[0] &&
+            product.price <= selectedPrice[1]
+        )
+      )
+    }
+  }, [selectedPrice])
+
+  const handleChangeOption = (event: SelectChangeEvent) => {
     setSortOption(event.target.value)
   }
 
-  const handleChangePrice = (event, newPriceRange) => {
+  const handleChangePrice = (
+    event: Event,
+    newPriceRange: number | number[]
+  ) => {
     event.preventDefault()
-    setPrice(newPriceRange)
+    setSelectedPrice(newPriceRange as number[])
   }
 
-  const priceText = (value) => {
+  const priceText = (value: number) => {
     return `€${value}`
-  }
-
-  const handleChangeBrands = (event) => {
-    event.preventDefault()
-    setSelectedBrand(
-      typeof event.target.value === "string"
-        ? event.target.value.split(",")
-        : event.target.value
-    )
   }
 
   return (
@@ -89,30 +116,28 @@ const Products = () => {
       <h1>{category.title}</h1>
       <Grid container spacing={2} marginTop={1} className="filter-container">
         <Grid item xs={5}>
-          <ProductsFilter title={`Brand: ${selectedBrand.length} selected`}>
-            <Box className="filter-box-selection">
-              <MenuList
-                value={selectedBrand}
-                onChange={handleChangeBrands}
-                renderValue={(selected) => selected.join(", ")}
-              >
-                {brandList.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    <Checkbox checked={selectedBrand.indexOf(name) > -1} />
-                    <ListItemText primary={name} />
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Box>
-          </ProductsFilter>
+          <Autocomplete
+            multiple
+            onChange={(event: any, newValue: string[]) => {
+              setSelectedBrand(newValue)
+            }}
+            limitTags={3}
+            options={brandList}
+            getOptionLabel={(option: string) => option}
+            renderInput={(params) => (
+              <TextField {...params} label="Brands" placeholder="Favorite" />
+            )}
+          />
         </Grid>
         <Grid item xs={5}>
-          <ProductsFilter title={`Price: From €${price[0]} to €${price[1]}`}>
+          <ProductsFilter
+            title={`Price: From €${selectedPrice[0]} to €${selectedPrice[1]}`}
+          >
             <Box className="price-slider">
               <Slider
                 getAriaLabel={() => "Price range"}
-                value={price}
-                max={1000}
+                value={selectedPrice}
+                max={price[1]}
                 onChange={handleChangePrice}
                 valueLabelDisplay="auto"
                 getAriaValueText={priceText}
@@ -123,8 +148,8 @@ const Products = () => {
                     label: "€0",
                   },
                   {
-                    value: 1000,
-                    label: "€1000",
+                    value: price[1],
+                    label: priceText(price[1]),
                   },
                 ]}
               />
