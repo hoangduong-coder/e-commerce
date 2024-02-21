@@ -1,10 +1,12 @@
-import { Router } from "express"
+import { Request, Response, Router } from "express"
+
 import { verifyAdmin } from "../helper/utils"
 import Product from "../schema/product"
+import { Foo } from "../types/product"
 
 const productRouter = Router()
 
-productRouter.get("/", async (req, res) => {
+productRouter.get("/", async (req: Request<{}, {}, {}, Foo>, res: Response) => {
   const category = req.query.category
   const isDiscount = req.query.discount
   const products = await Product.find()
@@ -12,7 +14,8 @@ productRouter.get("/", async (req, res) => {
     return res.json(
       products.filter(
         (productData) =>
-          productData.productType === category || !!productData.discount
+          // @ts-ignore
+          productData.productType.includes(category) || !!productData.discount
       )
     )
   }
