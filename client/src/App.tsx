@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import NotFoundPage from "components/root/NotFoundPage"
-import Root from "components/root/Root"
 import Products from "pages/Products"
+import Root from "pages/Root"
 import SignInForm from "pages/SignIn"
 
 function App() {

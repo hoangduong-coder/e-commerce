@@ -1,10 +1,10 @@
-import picture1 from "./assets/computer_category.jpg"
-import picture2 from "./assets/phone-accessories.webp"
 import picture3 from "./assets/TV-category.jpg"
+import picture1 from "./assets/computer_category.jpg"
 import picture4 from "./assets/games-accessories.webp"
+import picture7 from "./assets/kitchen.jpg"
+import picture2 from "./assets/phone-accessories.webp"
 import picture5 from "./assets/tablets.jpg"
 import picture6 from "./assets/working-office.jpg"
-import picture7 from "./assets/kitchen.jpg"
 
 export const CATEGORIES = [
   {
@@ -51,7 +51,7 @@ export const CATEGORIES = [
   },
 ]
 
-export const orderApi = "/api/orders"
-export const productApi = "/api/products"
+export const orderApi = "http://localhost:3000/api/orders"
+export const productApi = "http://localhost:3000/api/products"
 export const userApi = "/api/users"
 export const loginApi = "/api/auth"

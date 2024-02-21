@@ -14,12 +14,9 @@ export default defineConfig({
       types: `${path.resolve(__dirname, "./src/types/")}`
     }
   },
-  server: {
-    proxy: {
-      '/api': {
-        target: "http://localhost:3000",
-        changeOrigin: true
-      }
-    }
-  }
+  // server: {
+  //   proxy: {
+  //     '/api': "http://localhost:3000"
+  //   }
+  // }
 })
