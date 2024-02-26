@@ -6,6 +6,7 @@ export type Category = {
 }
 
 export interface Product {
+  id: string,
   title: string,
   productType: "Computer" |
   "Phone" |

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import "components/store/store.scss"
+import "./pages.scss"
 
 import {
   Autocomplete,
@@ -14,14 +14,16 @@ import {
   SelectChangeEvent,
   Slider,
   TextField,
+  Typography,
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 import { Category, Product } from "types/product"
 
+import ProductCard from "components/store/ProductCard"
+import ProductsFilter from "components/store/ProductsFilter"
 import { useParams } from "react-router-dom"
 import { initializeProducts } from "reduxStore/productSlice"
-import ProductsFilter from "../components/store/ProductsFilter"
 import { CATEGORIES } from "../utils"
 
 const Products = () => {
@@ -29,9 +31,7 @@ const Products = () => {
   const dispatch = useAppDispatch()
   const initialProductList = useAppSelector((state) => state.products.all)
 
-  const [productList, setProductList] = useState<Array<Product>>(
-    initialProductList || []
-  )
+  const [productList, setProductList] = useState<Array<Product>>([])
   const [brandList, setBrandList] = useState<string[]>([])
   const [category, setCategory] = useState<Category>({
     id: "",
@@ -54,6 +54,21 @@ const Products = () => {
   }, [categoryId])
 
   useEffect(() => {
+    if (initialProductList.length > 0) {
+      setProductList(initialProductList)
+
+      const priceList = Array.from(
+        new Set(
+          initialProductList.map((product) => {
+            return product.price
+          })
+        )
+      )
+      setPrice([Math.min(...priceList), Math.max(...priceList)])
+    }
+  }, [initialProductList])
+
+  useEffect(() => {
     if (productList?.length > 0) {
       const brands = Array.from(
         new Set(
@@ -63,15 +78,6 @@ const Products = () => {
         )
       )
       setBrandList(brands)
-
-      const priceList = Array.from(
-        new Set(
-          productList.map((product) => {
-            return product.price
-          })
-        )
-      )
-      setPrice([Math.min(...priceList), Math.max(...priceList)])
     }
   }, [productList])
 
@@ -83,28 +89,19 @@ const Products = () => {
     }
   }, [selectedBrand])
 
-  useEffect(() => {
-    if (productList?.length > 0) {
-      setProductList(
-        productList.filter(
-          (product) =>
-            product.price >= selectedPrice[0] &&
-            product.price <= selectedPrice[1]
-        )
-      )
-    }
-  }, [selectedPrice])
-
   const handleChangeOption = (event: SelectChangeEvent) => {
     setSortOption(event.target.value)
   }
 
-  const handleChangePrice = (
-    event: Event,
-    newPriceRange: number | number[]
-  ) => {
+  const handleChangePrice = (event: any) => {
     event.preventDefault()
-    setSelectedPrice(newPriceRange as number[])
+    const { value } = event.target
+    setSelectedPrice(value)
+    setProductList(
+      initialProductList.filter(
+        (product) => product.price >= value[0] && product.price <= value[1]
+      )
+    )
   }
 
   const priceText = (value: number) => {
@@ -157,11 +154,7 @@ const Products = () => {
           </ProductsFilter>
         </Grid>
         <Grid item xs={2}>
-          <FormControl
-            size="small"
-            fullWidth
-            className="filter-dropdown-container"
-          >
+          <FormControl fullWidth className="filter-dropdown-container">
             <InputLabel>Sort</InputLabel>
             <Select
               value={sortOption}
@@ -181,6 +174,23 @@ const Products = () => {
           </FormControl>
         </Grid>
       </Grid>
+      {productList.length > 0 ? (
+        <Grid container spacing={2} marginTop={1} className="product-container">
+          {productList.map((product) => (
+            <Grid item xs={3}>
+              <ProductCard
+                key={product.id}
+                product={product}
+                className="product-card"
+              />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography mt={1} variant="body1">
+          No product found!
+        </Typography>
+      )}
     </div>
   )
 }
