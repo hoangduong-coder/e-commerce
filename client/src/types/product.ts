@@ -36,6 +36,7 @@ export interface Product {
   otherFeature?: string,
   eanCode: string,
   manufacturerProductCode: string,
+  updatedAt: string
 }
 
 export type ProductTypeProps = {

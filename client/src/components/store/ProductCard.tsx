@@ -1,4 +1,4 @@
-import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material"
+import { Card, CardContent, CardMedia, Typography } from "@mui/material"
 
 import { Product } from "types/product"
 
@@ -23,21 +23,16 @@ const ProductCard = ({
         <Typography variant="body1" color="text.secondary">
           {product.brand}
         </Typography>
-        <div>
-          <Typography variant="body2" color="text.secondary">
-            Available colors:{" "}
-          </Typography>
-          <Stack direction="row">
-            {product.color.map((code) => (
-              <div
-                style={{ backgroundColor: code, borderRadius: "50%" }}
-                key={code}
-              />
-            ))}
-          </Stack>
-        </div>
-        <Typography variant="h5" component="div" align="right">
+        <Typography variant="h5" component="div" mt={2}>
           €{product.price}
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          or from €
+          {(product.price > 1000
+            ? product.price / 36
+            : product.price / 24
+          ).toFixed(2)}
+          /month
         </Typography>
       </CardContent>
     </Card>

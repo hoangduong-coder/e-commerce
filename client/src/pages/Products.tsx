@@ -45,6 +45,29 @@ const Products = () => {
   const [selectedPrice, setSelectedPrice] = useState([10, 100])
   const [selectedBrand, setSelectedBrand] = useState<string[]>([])
 
+  const options = [
+    {
+      id: 1,
+      value: "newest",
+      label: "Newest",
+    },
+    {
+      id: 2,
+      value: "discount",
+      label: "By discount",
+    },
+    {
+      id: 3,
+      value: "price-ascending",
+      label: "By price (low to high)",
+    },
+    {
+      id: 4,
+      value: "price-descending",
+      label: "By price (high to low)",
+    },
+  ]
+
   useEffect(() => {
     const findCategory = CATEGORIES.find((item) => item.id === categoryId)
     if (findCategory) {
@@ -54,19 +77,47 @@ const Products = () => {
   }, [categoryId])
 
   useEffect(() => {
-    if (initialProductList.length > 0) {
-      setProductList(initialProductList)
+    setProductList(initialProductList)
 
-      const priceList = Array.from(
-        new Set(
-          initialProductList.map((product) => {
-            return product.price
-          })
-        )
+    const priceList = Array.from(
+      new Set(
+        initialProductList.map((product) => {
+          return product.price
+        })
       )
-      setPrice([Math.min(...priceList), Math.max(...priceList)])
-    }
+    )
+    setPrice([Math.min(...priceList), Math.max(...priceList)])
   }, [initialProductList])
+
+  useEffect(() => {
+    let sortedList = [...initialProductList]
+
+    switch (sortOption) {
+      case "newest": {
+        sortedList.sort(
+          (prev, curr) =>
+            new Date(prev.updatedAt).getTime() -
+            new Date(curr.updatedAt).getTime()
+        )
+        break
+      }
+      case "discount": {
+        sortedList = productList.filter((product) => product.discount)
+        break
+      }
+      case "price-ascending": {
+        sortedList.sort((prev, curr) => prev.price - curr.price)
+        break
+      }
+      case "price-descending": {
+        sortedList.sort((prev, curr) => curr.price - prev.price)
+        break
+      }
+      default:
+        break
+    }
+    setProductList(sortedList)
+  }, [sortOption])
 
   useEffect(() => {
     if (productList?.length > 0) {
@@ -90,7 +141,9 @@ const Products = () => {
   }, [selectedBrand])
 
   const handleChangeOption = (event: SelectChangeEvent) => {
-    setSortOption(event.target.value)
+    event.preventDefault()
+    const { value } = event.target
+    setSortOption(value)
   }
 
   const handleChangePrice = (event: any) => {
@@ -115,14 +168,19 @@ const Products = () => {
         <Grid item xs={5}>
           <Autocomplete
             multiple
-            onChange={(event: any, newValue: string[]) => {
+            onChange={(_event: any, newValue: string[]) => {
               setSelectedBrand(newValue)
             }}
             limitTags={3}
             options={brandList}
             getOptionLabel={(option: string) => option}
             renderInput={(params) => (
-              <TextField {...params} label="Brands" placeholder="Favorite" />
+              <TextField
+                {...params}
+                // key={params.id}
+                label="Brands"
+                placeholder="Favorite"
+              />
             )}
           />
         </Grid>
@@ -162,14 +220,11 @@ const Products = () => {
               onChange={handleChangeOption}
               className="filter-dropdown"
             >
-              <MenuItem value="newest">Newest</MenuItem>
-              <MenuItem value="discount">By discount</MenuItem>
-              <MenuItem value="price-ascending">
-                By price (low to high)
-              </MenuItem>
-              <MenuItem value="price-descending">
-                By price (high to low)
-              </MenuItem>
+              {options.map((option) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -177,12 +232,8 @@ const Products = () => {
       {productList.length > 0 ? (
         <Grid container spacing={2} marginTop={1} className="product-container">
           {productList.map((product) => (
-            <Grid item xs={3}>
-              <ProductCard
-                key={product.id}
-                product={product}
-                className="product-card"
-              />
+            <Grid item xs={3} key={product.id}>
+              <ProductCard product={product} className="product-card" />
             </Grid>
           ))}
         </Grid>
