@@ -1,4 +1,4 @@
-import "./pages.css"
+import "./pages.scss"
 
 import { Button, Typography } from "@mui/material"
 

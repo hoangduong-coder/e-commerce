@@ -51,7 +51,7 @@ export const CATEGORIES = [
   },
 ]
 
-export const orderApi = "http://localhost:3000/api/orders"
-export const productApi = "http://localhost:3000/api/products"
-export const userApi = "/api/users"
-export const loginApi = "/api/auth"
+export const orderApi = `${import.meta.env.VITE_SERVER_URL}/api/orders`
+export const productApi = `${import.meta.env.VITE_SERVER_URL}/api/products`
+export const userApi = `${import.meta.env.VITE_SERVER_URL}/api/users`
+export const loginApi = `${import.meta.env.VITE_SERVER_URL}/api/auth`

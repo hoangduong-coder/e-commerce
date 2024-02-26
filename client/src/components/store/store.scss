@@ -19,30 +19,3 @@
     }
   }
 }
-
-.filter-container {
-  width: 100%;
-  align-items: stretch;
-
-  .filter-button {
-    width: 100%;
-    height: 100%;
-  }
-
-  .filter-dropdown-container,
-  .filter-dropdown {
-    height: 100%;
-  }
-}
-
-.price-slider {
-  padding: 3rem 2rem 1rem;
-  height: fit-content;
-  width: 25vw;
-}
-
-.filter-box-selection {
-  width: 25vw;
-  max-height: 200px;
-  padding: 1rem;
-}
