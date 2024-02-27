@@ -3,9 +3,9 @@ import { Schema, model } from "mongoose";
 import product from "../product";
 
 const computerProductSchema = new Schema({
-  computerType: {
-    type: String,
-    enum: ["Desktop", "Laptop", "CPU"],
+  deviceType: {
+    type: [String],
+    enum: ["Desktop", "Laptop", "CPU", "Office", "Gaming", "Accessories"],
     required: true
   },
   screenSize: Number, //By inches
@@ -22,7 +22,6 @@ const computerProductSchema = new Schema({
   processor: { type: String, required: true },
   refreshRate: Number, //by Hz
   supportedNetwork: { type: String, required: true }, //Available network info: e.g., Bluetooth, Wifi, 4G-5G.
-  otherFeature: String,
 })
 
 product.discriminator("Computer", computerProductSchema)

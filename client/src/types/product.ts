@@ -8,11 +8,10 @@ export type Category = {
 export interface Product {
   id: string
   title: string
-  productType: "Computer" | "Phone" | "TV" | "Games"
+  category: "Computer" | "Phone" | "TVScreen" | "Gaming"
   availability: number
   brand: string
   price: number
-  discount: number
   picture: string
   description: string
   height?: number //By mm
@@ -20,7 +19,7 @@ export interface Product {
   weight?: number //By grams
   depth?: number //By mm
   warrantyLength?: number //by months
-  otherFeature?: string
+  otherFeatures?: string
   eanCode: string
   manufacturerProductCode: string
   updatedAt: string

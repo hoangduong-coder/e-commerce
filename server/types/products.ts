@@ -1,4 +1,23 @@
-import { Product } from "types/product";
+export interface Product {
+  id: string
+  title: string
+  category: "Computer" | "Phone" | "TVScreen" | "Gaming"
+  availability: number
+  brand: string
+  price: number
+  picture: string
+  description: string
+  height?: number //By mm
+  width?: number //By mm
+  weight?: number //By grams
+  depth?: number //By mm
+  warrantyLength?: number //by months
+  otherFeatures?: string
+  eanCode: string
+  manufacturerProductCode: string
+  updatedAt: string
+  createdAt: string
+}
 
 export interface PhoneProduct extends Product {
   deviceType: Array<"Gaming" | "Accessories">

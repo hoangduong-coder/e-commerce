@@ -44,12 +44,12 @@ productRouter.get("/:id", async (req, res) => {
   }
 })
 
-productRouter.post("/", async (req, res) => {
+productRouter.post("/:category", async (req, res) => {
   try {
     await verifyAdmin(req, res)
     const newProduct = new Product({
       ...req.body,
-      discount: req.body.discount || 0,
+      category: req.params.category,
     })
     await newProduct.save()
     res.status(201).json(newProduct.toJSON())

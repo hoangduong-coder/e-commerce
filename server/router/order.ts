@@ -4,7 +4,9 @@ import { SECRET_KEY, verifyAdmin } from "../helper/utils"
 import { Router } from "express"
 import Order from "../schema/order"
 import Product from "../schema/product"
+import Phone from "../schema/sub_product/phone"
 import User from "../schema/user"
+import { PhoneProduct } from "../types/products"
 
 const orderRouter = Router()
 
@@ -35,23 +37,39 @@ orderRouter.post("/", async (req, res) => {
 
   for (const orderItem of req.body.orders) {
     const selectedProduct = await Product.findById(orderItem.productID)
-    if (selectedProduct !== null) {
-      const deviceMemory = selectedProduct.innerMemory.find(
+
+    if (selectedProduct !== null && selectedProduct instanceof Phone) {
+      const selectedPhone = selectedProduct.toJSON() as PhoneProduct
+      const deviceMemory = selectedPhone.innerMemory.find(
         (productMemo) => productMemo === orderItem.selectedProductMemo
       )
+      let priceBasedOnMemorySize = selectedProduct.price
+
       orderList.push({
         orderedProduct: selectedProduct._id,
         quantity: orderItem.quantity,
-        selectedInnerMemory: deviceMemory ?? selectedProduct.innerMemory.at(-1),
+        selectedInnerMemory: deviceMemory ?? selectedPhone.innerMemory.at(-1),
       })
 
-      if (selectedProduct.discount) {
-        totalPrice += selectedProduct.price * (1 - selectedProduct.discount)
+      if (deviceMemory) {
+        priceBasedOnMemorySize += 100 * selectedPhone.innerMemory.indexOf(deviceMemory)
       } else {
-        totalPrice += selectedProduct.price
+        priceBasedOnMemorySize += 100 * (selectedPhone.innerMemory.length - 1)
       }
+
+      totalPrice += priceBasedOnMemorySize * orderItem.quantity
+
+    } else if (selectedProduct !== null) {
+      orderList.push({
+        orderedProduct: selectedProduct._id,
+        quantity: orderItem.quantity,
+        selectedInnerMemory: orderItem.selectedProductMemo,
+      })
+      totalPrice += selectedProduct.price * orderItem.quantity
     }
   }
+
+
 
   switch (req.body.deliveryType) {
     case "Normal": {

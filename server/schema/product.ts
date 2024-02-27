@@ -1,25 +1,16 @@
 import { Schema, model } from "mongoose"
 
-const productSchema = new Schema(
+import { Product } from "../types/products"
+
+const productSchema = new Schema<Product>(
   {
     title: { type: String, required: true },
-    productType: {
-      type: [String],
-      enum: [
-        "Computer",
-        "Phone",
-        "TV",
-        "Games"
-      ],
-      required: true,
-    },
     availability: {
       type: Number,
       required: true,
     },
     brand: { type: String, required: true },
     price: { type: Number, required: true },
-    discount: Number,
     picture: { type: String, required: true },
     description: {
       type: String,
@@ -38,8 +29,9 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    otherFeatures: String,
   },
-  { timestamps: true }
+  { timestamps: true, discriminatorKey: "category" }
 )
 
 productSchema.set("toJSON", {

@@ -6,5 +6,5 @@ const gamesProductSchema = new Schema({
 
 })
 
-product.discriminator("Games", gamesProductSchema)
-export default model("Games")
+product.discriminator("Gaming", gamesProductSchema)
+export default model("Gaming")
