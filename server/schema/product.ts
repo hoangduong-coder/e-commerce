@@ -9,10 +9,7 @@ const productSchema = new Schema(
         "Computer",
         "Phone",
         "TV",
-        "Games",
-        "Tablets",
-        "Office",
-        "Kitchen",
+        "Games"
       ],
       required: true,
     },
@@ -23,7 +20,6 @@ const productSchema = new Schema(
     brand: { type: String, required: true },
     price: { type: Number, required: true },
     discount: Number,
-    color: { type: [String], required: true },
     picture: { type: String, required: true },
     description: {
       type: String,
@@ -33,14 +29,7 @@ const productSchema = new Schema(
     width: Number,            //By mm
     weight: Number,           //By grams
     depth: Number,            //By mm
-    batteryCharacteristics: String,
-    screenSize: Number,       //By inches
-    screenResolution: String,
-    compatibility: String,    //Available connectors info: e.g., Bluetooth, Wifi, 4G-5G, USB Type C, HDMI, etc.
-    innerMemory: [Number],      //By GB 
-    ramMemory: Number,        //By GB
-    warrantyLength: Number,   //by months
-    otherFeature: String,
+    warrantyLength: { type: Number, required: true }, //by months
     eanCode: {
       type: String,
       required: true,

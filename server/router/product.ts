@@ -2,25 +2,38 @@ import { Request, Response, Router } from "express"
 
 import { verifyAdmin } from "../helper/utils"
 import Product from "../schema/product"
-import { Foo } from "../types/product"
 
 const productRouter = Router()
 
-productRouter.get("/", async (req: Request<{}, {}, {}, Foo>, res: Response) => {
-  const category = req.query.category
-  const isDiscount = req.query.discount
-  const products = await Product.find()
-  if (isDiscount || category) {
-    return res.json(
-      products.filter(
-        (productData) =>
-          // @ts-ignore
-          productData.productType.includes(category) || !!productData.discount
+productRouter.get(
+  "/",
+  async (
+    req: Request<
+      {},
+      {},
+      {},
+      {
+        category?: string
+        discount?: boolean
+      }
+    >,
+    res: Response
+  ) => {
+    const category = req.query.category
+    const isDiscount = req.query.discount
+    const products = await Product.find()
+    if (isDiscount || category) {
+      return res.json(
+        products.filter(
+          (productData) =>
+            // @ts-ignore
+            productData.productType.includes(category) || !!productData.discount
+        )
       )
-    )
+    }
+    res.json(products)
   }
-  res.json(products)
-})
+)
 
 productRouter.get("/:id", async (req, res) => {
   const selectedProduct = await Product.findById(req.params.id)
@@ -34,7 +47,10 @@ productRouter.get("/:id", async (req, res) => {
 productRouter.post("/", async (req, res) => {
   try {
     await verifyAdmin(req, res)
-    const newProduct = new Product({ ...req.body, discount: req.body.discount || 0 })
+    const newProduct = new Product({
+      ...req.body,
+      discount: req.body.discount || 0,
+    })
     await newProduct.save()
     res.status(201).json(newProduct.toJSON())
   } catch (error: any) {
@@ -45,9 +61,13 @@ productRouter.post("/", async (req, res) => {
 productRouter.put("/:id", async (req, res) => {
   try {
     await verifyAdmin(req, res)
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    })
+    const updatedProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    )
     res.status(200).json(updatedProduct)
   } catch (error: any) {
     res.status(401).json({ error: error.message })
