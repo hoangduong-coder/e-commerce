@@ -43,7 +43,6 @@ orderRouter.post("/", async (req, res) => {
       const deviceMemory = selectedPhone.innerMemory.find(
         (productMemo) => productMemo === orderItem.selectedProductMemo
       )
-      let priceBasedOnMemorySize = selectedProduct.price
 
       orderList.push({
         orderedProduct: selectedProduct._id,
@@ -51,25 +50,23 @@ orderRouter.post("/", async (req, res) => {
         selectedInnerMemory: deviceMemory ?? selectedPhone.innerMemory.at(-1),
       })
 
-      if (deviceMemory) {
-        priceBasedOnMemorySize += 100 * selectedPhone.innerMemory.indexOf(deviceMemory)
-      } else {
-        priceBasedOnMemorySize += 100 * (selectedPhone.innerMemory.length - 1)
-      }
+      const index = deviceMemory
+        ? selectedPhone.innerMemory.indexOf(deviceMemory)
+        : selectedPhone.innerMemory.length - 1
 
+      const priceBasedOnMemorySize = (
+        selectedProduct.price as unknown as Array<number>
+      )[index]
       totalPrice += priceBasedOnMemorySize * orderItem.quantity
-
     } else if (selectedProduct !== null) {
       orderList.push({
         orderedProduct: selectedProduct._id,
         quantity: orderItem.quantity,
         selectedInnerMemory: orderItem.selectedProductMemo,
       })
-      totalPrice += selectedProduct.price * orderItem.quantity
+      totalPrice += (selectedProduct.price as number) * orderItem.quantity
     }
   }
-
-
 
   switch (req.body.deliveryType) {
     case "Normal": {

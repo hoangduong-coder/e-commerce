@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 import product from "../product";
 
 const computerProductSchema = new Schema({
+  price: { type: Number, required: true },
   deviceType: {
     type: [String],
     enum: ["Desktop", "Laptop", "CPU", "Office", "Gaming", "Accessories"],

@@ -11,7 +11,7 @@ export interface Product {
   category: "Computer" | "Phone" | "TVScreen" | "Gaming"
   availability: number
   brand: string
-  price: number
+  price: number | Array<number>
   picture: string
   description: string
   height?: number //By mm

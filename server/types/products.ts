@@ -4,7 +4,7 @@ export interface Product {
   category: "Computer" | "Phone" | "TVScreen" | "Gaming"
   availability: number
   brand: string
-  price: number
+  price: number | Array<number>
   picture: string
   description: string
   height?: number //By mm
@@ -26,15 +26,15 @@ export interface PhoneProduct extends Product {
   screenResolution: string,
   compatibility: string,    //Available connectors info: e.g., Bluetooth, Wifi, 4G-5G, USB Type C, HDMI, etc.
   innerMemory: Array<number>,      //By GB 
-  ramMemory: number,
+  ramMemory?: number,
   color: Array<string>,
   operatingSystem: string,
-  camera: number, //by MP
-  frontCamera: number, //by MP
-  resistanceAbility: "dust" | "water" | "impact",
+  camera: string, //by MP
+  frontCamera?: number, //by MP
+  resistanceAbility: "dust" | "water" | "impact" | "splash",
   numberOfCameras: number,
-  processor: string,
-  refreshRate: number, //by Hz
+  processor?: string,
+  refreshRate?: number, //by Hz
   supportedNetwork: string
 }
 
