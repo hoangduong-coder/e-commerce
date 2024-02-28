@@ -14,24 +14,18 @@ productRouter.get(
       {},
       {
         category?: string
-        discount?: boolean
       }
     >,
     res: Response
   ) => {
     const category = req.query.category
-    const isDiscount = req.query.discount
-    const products = await Product.find()
-    if (isDiscount || category) {
-      return res.json(
-        products.filter(
-          (productData) =>
-            // @ts-ignore
-            productData.productType.includes(category) || !!productData.discount
-        )
-      )
+    if (category) {
+      const products = await Product.find({ "category": category })
+      return res.json(products)
+    } else {
+      const products = await Product.find()
+      res.json(products)
     }
-    res.json(products)
   }
 )
 

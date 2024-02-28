@@ -1,3 +1,5 @@
+import { ComputerProduct, PhoneProduct } from "./helpers/productHelper"
+
 export type Category = {
   id: string
   title: string
@@ -27,7 +29,7 @@ export interface Product {
 }
 
 export type ProductTypeProps = {
-  all: Array<Product>
+  all: Array<PhoneProduct | ComputerProduct>
   byId: Product
   loading: "idle" | "pending"
 }

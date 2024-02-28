@@ -7,16 +7,16 @@ import { AppDispatch } from "./store"
 const initialState: ProductTypeProps = {
   all: [],
   byId: {
+    id: "",
+    updatedAt: "",
+    createdAt: "",
     title: "",
-    productType: "Computer",
+    category: "Computer",
     availability: 0,
     brand: "",
     price: 0,
-    discount: 0,
-    color: [],
     picture: "",
     description: "",
-    innerMemory: [],
     eanCode: "",
     manufacturerProductCode: ""
   },
@@ -50,10 +50,10 @@ const productSlice = createSlice({
 export const { setProducts, setProductById, pageLoading } = productSlice.actions
 
 export const initializeProducts =
-  ({ category, discount }: GetProductProps) =>
+  ({ category }: GetProductProps) =>
     async (dispatch: AppDispatch) => {
       dispatch(pageLoading())
-      const productList = await getProduct({ category, discount })
+      const productList = await getProduct({ category })
       dispatch(setProducts(productList))
     }
 

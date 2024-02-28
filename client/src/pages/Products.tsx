@@ -53,16 +53,11 @@ const Products = () => {
     },
     {
       id: 2,
-      value: "discount",
-      label: "By discount",
-    },
-    {
-      id: 3,
       value: "price-ascending",
       label: "By price (low to high)",
     },
     {
-      id: 4,
+      id: 3,
       value: "price-descending",
       label: "By price (high to low)",
     },
@@ -82,7 +77,9 @@ const Products = () => {
     const priceList = Array.from(
       new Set(
         initialProductList.map((product) => {
-          return product.price
+          return typeof product.price === "number"
+            ? product.price
+            : product.price[0]
         })
       )
     )
@@ -90,7 +87,7 @@ const Products = () => {
   }, [initialProductList])
 
   useEffect(() => {
-    let sortedList = [...initialProductList]
+    const sortedList = [...initialProductList]
 
     switch (sortOption) {
       case "newest": {
@@ -101,16 +98,20 @@ const Products = () => {
         )
         break
       }
-      case "discount": {
-        sortedList = productList.filter((product) => product.discount)
-        break
-      }
       case "price-ascending": {
-        sortedList.sort((prev, curr) => prev.price - curr.price)
+        sortedList.sort((prev, curr) =>
+          typeof curr.price === "number" && typeof prev.price === "number"
+            ? prev.price - curr.price
+            : (prev.price as number[])[0] - (curr.price as number[])[0]
+        )
         break
       }
       case "price-descending": {
-        sortedList.sort((prev, curr) => curr.price - prev.price)
+        sortedList.sort((prev, curr) =>
+          typeof curr.price === "number" && typeof prev.price === "number"
+            ? curr.price - prev.price
+            : (curr.price as number[])[0] - (prev.price as number[])[0]
+        )
         break
       }
       default:
@@ -232,7 +233,7 @@ const Products = () => {
       {productList.length > 0 ? (
         <Grid container spacing={2} marginTop={1} className="product-container">
           {productList.map((product) => (
-            <Grid item xs={3} key={product.id}>
+            <Grid item xs={6} md={3} key={product.id}>
               <ProductCard product={product} className="product-card" />
             </Grid>
           ))}

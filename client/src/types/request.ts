@@ -1,6 +1,5 @@
 export type GetProductProps = {
   category?: string,
-  discount?: boolean
 }
 
 export type CreateOrderProps = {

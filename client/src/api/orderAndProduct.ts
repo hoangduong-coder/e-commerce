@@ -3,8 +3,8 @@ import { orderApi, productApi } from "../utils";
 
 import axios from "axios";
 
-export const getProduct = async ({ category, discount }: GetProductProps) => {
-  const response = await axios.get(productApi, { params: { category, discount } })
+export const getProduct = async ({ category }: GetProductProps) => {
+  const response = await axios.get(productApi, { params: { category } })
   return response.data
 }
 
