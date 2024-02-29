@@ -21,6 +21,18 @@ const initialState: ProductTypeProps = {
     description: "",
     eanCode: "",
     manufacturerProductCode: "",
+    deviceType: ["Gaming", "Accessories"],
+    batteryCharacteristics: "string",
+    screenSize: 0,
+    screenResolution: "",
+    compatibility: "",
+    innerMemory: [],
+    color: [],
+    operatingSystem: "",
+    camera: "", //by MP
+    resistanceAbility: "dust",
+    numberOfCameras: 0,
+    supportedNetwork: "string"
   },
   loading: "idle",
 }

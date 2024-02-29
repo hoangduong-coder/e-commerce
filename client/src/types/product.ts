@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { ComputerProduct, PhoneProduct } from "./helpers/productHelper"
 
 export type Category = {
@@ -30,6 +32,20 @@ export interface Product {
 
 export type ProductTypeProps = {
   all: Array<PhoneProduct | ComputerProduct>
-  byId: Product
+  byId: PhoneProduct | ComputerProduct
   loading: "idle" | "pending"
+}
+
+type PricingMethod = { key: number, value: string }
+
+export type ProductDetailSelectionProps = {
+  initialPricingMethods: Array<PricingMethod>,
+  pricingMethod: PricingMethod,
+  selectedPrice: number,
+  product: PhoneProduct | ComputerProduct,
+  handleChangeMemory: (e: any, value: any) => void,
+  selectedMemory: number,
+  handleChangeColor: (e: any, value: any) => void,
+  selectedColor: string,
+  handleChangePriceMethods: (e: any, value: any) => void
 }

@@ -19,3 +19,34 @@
     }
   }
 }
+
+.product-basic-details-image {
+  width: 100%;
+}
+
+.product-basic-details-selectionCard,
+.product-description-toggle {
+  margin-top: 24px;
+}
+
+.product-basic-details-selectionMethod {
+  margin-top: 8px;
+}
+
+.color-box {
+  width: 100%;
+  height: 50%;
+}
+
+.product-otherFeature-list {
+  margin-top: 8px;
+  padding-left: 24px;
+
+  .product-otherFeature-list-item {
+    margin-top: 8px;
+
+    &::marker {
+      color: #1976d2;
+    }
+  }
+}
