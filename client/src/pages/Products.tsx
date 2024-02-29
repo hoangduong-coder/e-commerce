@@ -232,7 +232,7 @@ const Products = () => {
       {productList.length > 0 ? (
         <Grid container spacing={2} marginTop={1} className="product-container">
           {productList.map((product) => (
-            <Grid item xs={6} md={3} key={product.id}>
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
               <ProductCard product={product} />
             </Grid>
           ))}
