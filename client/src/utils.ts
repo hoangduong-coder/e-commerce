@@ -8,26 +8,27 @@ export const CATEGORIES = [
     id: "computer",
     title: "Computer & Peripherals",
     pictureUrl: picture1,
-    type: "Computer"
+    type: "Computer",
   },
   {
     id: "phone",
     title: "Phones & Accessories",
     pictureUrl: picture2,
-    type: "Phone"
+    type: "Phone",
   },
   {
     id: "tv",
     title: "TV & Accessories",
     pictureUrl: picture3,
-    type: "TV"
+    type: "TV",
   },
   {
     id: "games",
     title: "Games",
     pictureUrl: picture4,
-    type: "Games"
-  }]
+    type: "Games",
+  },
+]
 // {
 //   id: "tablet",
 //   title: "Tablets & Accessories",
@@ -46,7 +47,12 @@ export const CATEGORIES = [
 //   pictureUrl: picture7,
 //   type: "Kitchen"
 // },
-
+export const priceMethods = [
+  { key: 36, value: "36 months" },
+  { key: 24, value: "24 months" },
+  { key: 12, value: "12 months" },
+  { key: 0, value: "Pay at once" },
+]
 
 export const orderApi = `${import.meta.env.VITE_SERVER_URL}/api/orders`
 export const productApi = `${import.meta.env.VITE_SERVER_URL}/api/products`
