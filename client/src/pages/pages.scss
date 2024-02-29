@@ -50,5 +50,13 @@
   .product-card {
     width: 100%;
     height: 45vh;
+
+    .product-card-content {
+      height: calc(45vh - 140px);
+
+      .product-card-content-grid {
+        height: 100%;
+      }
+    }
   }
 }

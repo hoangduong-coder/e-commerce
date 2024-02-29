@@ -152,9 +152,13 @@ const Products = () => {
     const { value } = event.target
     setSelectedPrice(value)
     setProductList(
-      initialProductList.filter(
-        (product) => product.price >= value[0] && product.price <= value[1]
-      )
+      initialProductList.filter((product) => {
+        if (typeof product.price === "number") {
+          return product.price >= value[0] && product.price <= value[1]
+        } else {
+          return product.price[0] >= value[0] && product.price[0] <= value[1]
+        }
+      })
     )
   }
 
@@ -176,12 +180,7 @@ const Products = () => {
             options={brandList}
             getOptionLabel={(option: string) => option}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                // key={params.id}
-                label="Brands"
-                placeholder="Favorite"
-              />
+              <TextField {...params} label="Brands" placeholder="Favorite" />
             )}
           />
         </Grid>
@@ -234,7 +233,7 @@ const Products = () => {
         <Grid container spacing={2} marginTop={1} className="product-container">
           {productList.map((product) => (
             <Grid item xs={6} md={3} key={product.id}>
-              <ProductCard product={product} className="product-card" />
+              <ProductCard product={product} />
             </Grid>
           ))}
         </Grid>

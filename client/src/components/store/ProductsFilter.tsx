@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Button, Popover } from "@mui/material"
 
 import { useState } from "react"
@@ -10,7 +12,7 @@ const ProductsFilter = ({
   children: JSX.Element
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
