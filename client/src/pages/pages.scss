@@ -47,16 +47,25 @@
   width: 100%;
   align-items: stretch;
 
+  .product-card-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
   .product-card {
     width: 100%;
     height: 45vh;
 
     .product-card-content {
-      height: calc(45vh - 140px);
+      height: calc(45vh - 160px);
 
       .product-card-content-grid {
         height: 100%;
       }
     }
   }
+}
+
+.text-link {
+  color: inherit;
 }

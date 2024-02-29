@@ -1,10 +1,15 @@
-import { CreateOrderProps, GetProductProps } from 'types/request';
+import { CreateOrderProps, GetProductByIdProps, GetProductProps } from 'types/request';
 import { orderApi, productApi } from "../utils";
 
 import axios from "axios";
 
 export const getProduct = async ({ category }: GetProductProps) => {
   const response = await axios.get(productApi, { params: { category } })
+  return response.data
+}
+
+export const getProductById = async ({ productId }: GetProductByIdProps) => {
+  const response = await axios.get(`${productApi}/${productId}`)
   return response.data
 }
 

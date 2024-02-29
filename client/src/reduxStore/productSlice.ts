@@ -1,7 +1,9 @@
+import { getProduct, getProductById } from "api/orderAndProduct"
+
 import { createSlice } from "@reduxjs/toolkit"
-import { getProduct } from "api/orderAndProduct"
 import { ProductTypeProps } from "types/product"
 import { GetProductProps } from "types/request"
+import { GetProductByIdProps } from "./../types/request"
 import { AppDispatch } from "./store"
 
 const initialState: ProductTypeProps = {
@@ -18,7 +20,7 @@ const initialState: ProductTypeProps = {
     picture: "",
     description: "",
     eanCode: "",
-    manufacturerProductCode: ""
+    manufacturerProductCode: "",
   },
   loading: "idle",
 }
@@ -55,6 +57,14 @@ export const initializeProducts =
       dispatch(pageLoading())
       const productList = await getProduct({ category })
       dispatch(setProducts(productList))
+    }
+
+export const initializeProductDetail =
+  ({ productId }: GetProductByIdProps) =>
+    async (dispatch: AppDispatch) => {
+      dispatch(pageLoading())
+      const product = await getProductById({ productId })
+      dispatch(setProductById(product))
     }
 
 export default productSlice.reducer

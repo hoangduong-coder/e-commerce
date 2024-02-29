@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import NotFoundPage from "components/root/NotFoundPage"
+import ProductDetail from "pages/ProductDetail"
 import Products from "pages/Products"
 import Root from "pages/Root"
 import SignInForm from "pages/SignIn"
@@ -15,6 +16,10 @@ function App() {
         {
           path: "/:categoryId",
           element: <Products />,
+        },
+        {
+          path: "/:categoryId/:productId",
+          element: <ProductDetail />,
         },
         {
           path: "/signin",
