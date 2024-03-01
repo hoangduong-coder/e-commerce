@@ -2,7 +2,8 @@ import { Box, Tab, Tabs, Typography } from "@mui/material"
 import { ReactNode, SyntheticEvent, useState } from "react"
 import { ComputerProduct, PhoneProduct } from "types/helpers/productHelper"
 
-import ProductTechnicalTable from "./ProductTechnicalTable"
+import ProductCharacteristicsTable from "./ProductCharacteristicsTable"
+import ProductInformationTable from "./ProductInformationTable"
 
 const TabPanel = ({
   children,
@@ -47,17 +48,21 @@ const ProductDescription = ({
       </Typography>
       <Box className="product-description-toggle">
         <Tabs value={selectedValue} onChange={handleTabChange}>
-          <Tab label="Technical information" />
+          <Tab label="Product basic information" />
+          <Tab label="Characteristics" />
           {product.otherFeatures && product.otherFeatures.length > 0 && (
             <Tab label="Others" />
           )}
         </Tabs>
       </Box>
       <TabPanel value={0} selected={selectedValue}>
-        <ProductTechnicalTable product={product} />
+        <ProductInformationTable product={product} />
+      </TabPanel>
+      <TabPanel value={1} selected={selectedValue}>
+        <ProductCharacteristicsTable product={product} />
       </TabPanel>
       {product.otherFeatures && product.otherFeatures.length > 0 && (
-        <TabPanel value={1} selected={selectedValue}>
+        <TabPanel value={2} selected={selectedValue}>
           <ul className="product-otherFeature-list">{otherListItems}</ul>
         </TabPanel>
       )}
