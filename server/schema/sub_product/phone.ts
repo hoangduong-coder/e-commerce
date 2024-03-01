@@ -17,7 +17,7 @@ const phoneProductSchema = new Schema({
   batteryCharacteristics: { type: String, required: true },
   operatingSystem: { type: String, required: true },
   camera: { type: String, required: true }, //by MP
-  frontCamera: Number, //by MP
+  frontCamera: String, //by MP
   resistanceAbility: {
     type: [String],
     enum: ["dust", "water", "impact", "splash"],

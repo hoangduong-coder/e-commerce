@@ -30,7 +30,7 @@ export interface PhoneProduct extends Product {
   color: Array<string>,
   operatingSystem: string,
   camera: string, //by MP
-  frontCamera?: number, //by MP
+  frontCamera?: string, //by MP
   resistanceAbility: "dust" | "water" | "impact" | "splash",
   numberOfCameras: number,
   processor?: string,
