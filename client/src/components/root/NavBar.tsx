@@ -27,15 +27,17 @@ const NavBar = () => {
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <Box className="nav-link">
-          <IconButton size="large" color="inherit">
-            {cookies.orders?.length > 0 ? (
-              <Badge badgeContent={cookies.orders.length} color="error">
+          <Link to="/orders" className="navbar-home-link">
+            <IconButton size="large" color="inherit">
+              {cookies.orders?.length > 0 ? (
+                <Badge badgeContent={cookies.orders.length} color="error">
+                  <ShoppingCart />
+                </Badge>
+              ) : (
                 <ShoppingCart />
-              </Badge>
-            ) : (
-              <ShoppingCart />
-            )}
-          </IconButton>
+              )}
+            </IconButton>
+          </Link>
           <Link to="/signin" className="navbar-home-link">
             <Button size="large" color="inherit" startIcon={<AccountCircle />}>
               Log in

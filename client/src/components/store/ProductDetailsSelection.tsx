@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 
 import { ThemeProvider } from "@emotion/react"
 import { useCookies } from "react-cookie"
+import { Link } from "react-router-dom"
 import { addToCart } from "reduxStore/orderSlice"
 import { PhoneProduct } from "types/helpers/productHelper"
 import { ProductDetailSelectionProps } from "types/product"
@@ -152,11 +153,11 @@ const ProductDetailsSelection = ({
           ))}
         </ToggleButtonGroup>
       </CardContent>
-      <CardActions>
+      <CardActions disableSpacing>
         {disabled && (
-          <Alert severity="warning">
-            You have already ordered this product. Please visit Order Cart page
-            to modify changes!
+          <Alert severity="warning" className="product-basic-details-alert">
+            You have already ordered this product. Please visit{" "}
+            <Link to="/orders">Your shopping cart</Link> page to modify changes!
           </Alert>
         )}
         <Button

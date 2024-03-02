@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import NotFoundPage from "components/root/NotFoundPage"
+import OrderPage from "pages/OrderPage"
 import ProductDetail from "pages/ProductDetail"
 import Products from "pages/Products"
 import Root from "pages/Root"
@@ -20,6 +21,10 @@ function App() {
         {
           path: "/:categoryId/:productId",
           element: <ProductDetail />,
+        },
+        {
+          path: "/orders",
+          element: <OrderPage />,
         },
         {
           path: "/signin",
