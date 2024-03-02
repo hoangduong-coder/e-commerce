@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Grid, Typography } from "@mui/material"
-import { MouseEvent, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 import { ComputerProduct, PhoneProduct } from "types/helpers/productHelper"
 
+import { PricingMethod } from "types/product"
 import { priceMethods } from "../../utils"
 import ProductDetailsSelection from "./ProductDetailsSelection"
 
@@ -10,25 +13,60 @@ const ProductBasicDetails = ({
 }: {
   product: PhoneProduct | ComputerProduct
 }) => {
-  const initialPrice =
-    typeof product.price === "number" ? product.price : product.price[0]
-  const initialPricingMethods =
-    initialPrice < 300 ? priceMethods.slice(1) : priceMethods
+  //initialData
+  const [pricingMethodList, setPricingMethodList] = useState<
+    Array<PricingMethod>
+  >([])
+  const [initialPrice, setInitialPrice] = useState<number>(0)
 
-  const [selectedPrice, setSelectedPrice] = useState<number>(initialPrice)
-  const [pricingMethod, setPricingMethod] = useState(initialPricingMethods[3])
-  const [selectedMemory, setSelectedMemory] = useState<number>(
-    typeof product.innerMemory !== "number"
-      ? ([...product.innerMemory].pop() as number)
-      : product.innerMemory
+  //user selection data
+  const [selectedPrice, setSelectedPrice] = useState<number>(0)
+  const [pricingMethod, setPricingMethod] = useState<PricingMethod>({
+    key: 0,
+    value: "",
+  })
+  const [selectedMemory, setSelectedMemory] = useState<number>(0)
+  const [selectedColor, setSelectedColor] = useState<string>(
+    (product as PhoneProduct).color[0] ?? ""
   )
-  const [selectedColor, setSelectedColor] = useState<string>("")
+
+  useEffect(() => {
+    const firstPrice =
+      typeof product.price === "number" ? product.price : product.price[0]
+    setInitialPrice(firstPrice)
+    setSelectedPrice(firstPrice)
+
+    const initialPricingMethods =
+      firstPrice < 300 ? priceMethods.slice(1) : priceMethods
+    setPricingMethodList(initialPricingMethods)
+    setPricingMethod(initialPricingMethods[initialPricingMethods.length - 1])
+
+    setSelectedMemory(
+      typeof product.innerMemory !== "number"
+        ? product.innerMemory[0]
+        : product.innerMemory
+    )
+  }, [])
+
+  useEffect(() => {
+    if (pricingMethod.key !== 0) {
+      setSelectedPrice(
+        parseFloat((initialPrice / pricingMethod.key).toFixed(2))
+      )
+    } else {
+      setSelectedPrice(initialPrice)
+    }
+  }, [initialPrice])
+
   const handleChangePriceMethods = (
     _event: MouseEvent<HTMLElement>,
-    newMethods: { key: number; value: string }
+    newMethods: PricingMethod
   ) => {
     setPricingMethod(newMethods)
-    if (initialPricingMethods.indexOf(newMethods) !== 3) {
+    if (
+      pricingMethodList.indexOf(newMethods) !==
+      pricingMethodList.length - 1
+    ) {
       setSelectedPrice(parseFloat((initialPrice / newMethods.key).toFixed(2)))
     } else {
       setSelectedPrice(initialPrice)
@@ -40,6 +78,8 @@ const ProductBasicDetails = ({
     newMemorySize: number
   ) => {
     setSelectedMemory(newMemorySize)
+    const index = product.innerMemory.indexOf(newMemorySize)
+    setInitialPrice((product.price as number[])[index])
   }
 
   const handleChangeColor = (
@@ -65,7 +105,7 @@ const ProductBasicDetails = ({
             {product.brand.toUpperCase()}
           </Typography>
           <ProductDetailsSelection
-            initialPricingMethods={initialPricingMethods}
+            initialPricingMethods={pricingMethodList}
             pricingMethod={pricingMethod}
             selectedPrice={selectedPrice}
             product={product}

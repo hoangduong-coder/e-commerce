@@ -19,7 +19,12 @@ const orderSchema = new Schema(
             type: Number,
             required: true,
           },
-          selectedInnerMemory: Number
+          selectedInnerMemory: Number,
+          selectedColor: String,
+          selectedPaymentDuration: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       required: true,

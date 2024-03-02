@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -9,8 +10,12 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material"
+import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 
 import { ThemeProvider } from "@emotion/react"
+import { useCookies } from "react-cookie"
+import { addToCart } from "reduxStore/orderSlice"
 import { PhoneProduct } from "types/helpers/productHelper"
 import { ProductDetailSelectionProps } from "types/product"
 
@@ -25,14 +30,42 @@ const ProductDetailsSelection = ({
   selectedColor,
   handleChangePriceMethods,
 }: ProductDetailSelectionProps) => {
+  const dispatch = useAppDispatch()
+  const orders = useAppSelector((state) => state.orders.all)
+  const [cookies, setCookies] = useCookies(["orders"])
+  const [disabled, setDisabled] = useState(false)
+
+  useEffect(() => {
+    if (orders.find((order) => order.productID === product.id)) {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+    }
+  }, [orders])
+
+  const addNewOrder = () => {
+    const newOrder = {
+      productID: product.id,
+      quantity: 1,
+      selectedInnerMemory: selectedMemory,
+      selectedColor: selectedColor,
+      selectedPaymentDuration: pricingMethod.key,
+    }
+    if (cookies.orders) {
+      setCookies("orders", cookies.orders.concat(newOrder), { path: "/" })
+    } else {
+      setCookies("orders", [newOrder], { path: "/" })
+    }
+    dispatch(addToCart(newOrder))
+  }
+
   return (
     <Card className="product-basic-details-selectionCard">
       <CardContent>
         <Stack direction="row" spacing={1} alignItems="flex-end">
           <Typography variant="h4" component="div">
-            {initialPricingMethods.indexOf(pricingMethod) !== 3 && "From "}
-            {selectedPrice}€
-            {initialPricingMethods.indexOf(pricingMethod) !== 3 && "/month"}
+            {pricingMethod.key !== 0 && "From "}
+            {selectedPrice}€{pricingMethod.key !== 0 && "/month"}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
             VAT 24%
@@ -120,7 +153,19 @@ const ProductDetailsSelection = ({
         </ToggleButtonGroup>
       </CardContent>
       <CardActions>
-        <Button color="primary" fullWidth variant="contained">
+        {disabled && (
+          <Alert severity="warning">
+            You have already ordered this product. Please visit Order Cart page
+            to modify changes!
+          </Alert>
+        )}
+        <Button
+          color="primary"
+          fullWidth
+          variant="contained"
+          disabled={disabled}
+          onClick={addNewOrder}
+        >
           Add to cart
         </Button>
       </CardActions>
