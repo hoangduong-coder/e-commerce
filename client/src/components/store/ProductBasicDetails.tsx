@@ -92,14 +92,14 @@ const ProductBasicDetails = ({
   return (
     <div>
       <Grid container spacing={3} mt={1}>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <img
             src={product.picture}
             alt={`${product.title}`}
             className="product-basic-details-image"
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={6}>
           <Typography variant="h4">{product.title}</Typography>
           <Typography variant="body1" color="text.secondary" mt={1}>
             {product.brand.toUpperCase()}

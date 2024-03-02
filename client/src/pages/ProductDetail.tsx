@@ -1,3 +1,5 @@
+import "components/store/store.scss"
+
 import { Breadcrumbs, Grid, Skeleton, Typography } from "@mui/material"
 import { Link, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
