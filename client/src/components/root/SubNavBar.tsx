@@ -1,9 +1,8 @@
 import "./layout.scss"
 
-import { AppBar, Box, Button, Menu, MenuItem, Toolbar } from "@mui/material"
+import { AppBar, Button, Menu, MenuItem, Toolbar } from "@mui/material"
 import { MouseEvent, useState } from "react"
 
-import { LocalShipping } from "@mui/icons-material"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Link } from "react-router-dom"
 import { CATEGORIES } from "../../utils"
@@ -48,12 +47,6 @@ const SubNavBar = () => {
         </div>
         <Button>New products</Button>
         <Button>New deals</Button>
-        <Box sx={{ flexGrow: 1 }} />
-        <Box className="nav-link">
-          <Button size="large" color="inherit" startIcon={<LocalShipping />}>
-            Deliver to Helsinki, Finland
-          </Button>
-        </Box>
       </Toolbar>
     </AppBar>
   )

@@ -30,7 +30,7 @@ const initialState: ProductTypeProps = {
     color: [],
     operatingSystem: "",
     camera: "", //by MP
-    resistanceAbility: "dust",
+    resistanceAbility: [],
     numberOfCameras: 0,
     supportedNetwork: "string"
   },

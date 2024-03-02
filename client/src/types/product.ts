@@ -36,7 +36,7 @@ export type ProductTypeProps = {
   loading: "idle" | "pending"
 }
 
-type PricingMethod = { key: number, value: string }
+export type PricingMethod = { key: number, value: string }
 
 export type ProductDetailSelectionProps = {
   initialPricingMethods: Array<PricingMethod>,
