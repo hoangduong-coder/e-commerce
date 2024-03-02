@@ -1,19 +1,22 @@
 import "./layout.scss"
 
-import { AccountCircle, Search, ShoppingCart } from "@mui/icons-material"
+import { AccountCircle, ShoppingCart } from "@mui/icons-material"
 import {
   AppBar,
+  Badge,
   Box,
   Button,
   IconButton,
-  InputBase,
   Toolbar,
   Typography,
 } from "@mui/material"
 
+import { useCookies } from "react-cookie"
 import { Link } from "react-router-dom"
 
 const NavBar = () => {
+  const [cookies] = useCookies(["orders"])
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -24,18 +27,14 @@ const NavBar = () => {
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <Box className="nav-link">
-          <div className="search-box">
-            <div className="search-icon-wrapper">
-              <Search />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              color="inherit"
-            />
-          </div>
           <IconButton size="large" color="inherit">
-            <ShoppingCart />
+            {cookies.orders?.length > 0 ? (
+              <Badge badgeContent={cookies.orders.length} color="error">
+                <ShoppingCart />
+              </Badge>
+            ) : (
+              <ShoppingCart />
+            )}
           </IconButton>
           <Link to="/signin" className="navbar-home-link">
             <Button size="large" color="inherit" startIcon={<AccountCircle />}>
