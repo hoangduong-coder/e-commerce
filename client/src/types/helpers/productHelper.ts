@@ -1,5 +1,10 @@
 import { Product } from "types/product";
 
+export type Color = {
+  colorCode: string,
+  colorName: string
+}
+
 export interface PhoneProduct extends Product {
   deviceType: Array<"Gaming" | "Accessories">
   batteryCharacteristics: string,
@@ -8,7 +13,7 @@ export interface PhoneProduct extends Product {
   compatibility: string,    //Available connectors info: e.g., Bluetooth, Wifi, 4G-5G, USB Type C, HDMI, etc.
   innerMemory: Array<number>,      //By GB 
   ramMemory?: number,
-  color: Array<string>,
+  color: Array<Color>,
   operatingSystem: string,
   camera: string, //by MP
   frontCamera?: string, //by MP

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { ComputerProduct, PhoneProduct } from "./helpers/productHelper"
+import { Color, ComputerProduct, PhoneProduct } from "./helpers/productHelper"
 
 export type Category = {
   id: string
@@ -46,6 +46,6 @@ export type ProductDetailSelectionProps = {
   handleChangeMemory: (e: any, value: any) => void,
   selectedMemory: number,
   handleChangeColor: (e: any, value: any) => void,
-  selectedColor: string,
+  selectedColor: Color,
   handleChangePriceMethods: (e: any, value: any) => void
 }

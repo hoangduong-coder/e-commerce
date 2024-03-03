@@ -27,7 +27,10 @@ export interface PhoneProduct extends Product {
   compatibility: string,    //Available connectors info: e.g., Bluetooth, Wifi, 4G-5G, USB Type C, HDMI, etc.
   innerMemory: Array<number>,      //By GB 
   ramMemory?: number,
-  color: Array<string>,
+  color: Array<{
+    colorCode: string,
+    colorName: string
+  }>,
   operatingSystem: string,
   camera: string, //by MP
   frontCamera?: string, //by MP

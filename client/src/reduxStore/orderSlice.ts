@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { Color } from "types/helpers/productHelper"
 import { AppDispatch } from "./store"
 
 type OrderedProduct = {
   productID: string,
   quantity: number,
   selectedInnerMemory?: number,
-  selectedColor?: string,
+  selectedColor?: Color,
   selectedPaymentDuration: number,
 }
 

@@ -2,6 +2,10 @@ import { Request, Response, Router } from "express"
 
 import { verifyAdmin } from "../helper/utils"
 import Product from "../schema/product"
+import Computer from "../schema/sub_product/computer"
+import Games from "../schema/sub_product/games"
+import Phone from "../schema/sub_product/phone"
+import TVScreen from "../schema/sub_product/tv_screen"
 
 const productRouter = Router()
 
@@ -52,17 +56,51 @@ productRouter.post("/:category", async (req, res) => {
   }
 })
 
-productRouter.put("/:id", async (req, res) => {
+productRouter.put("/:category/:id", async (req, res) => {
   try {
     await verifyAdmin(req, res)
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-      }
-    )
-    res.status(200).json(updatedProduct)
+    let updatedProduct = null
+    switch (req.params.category) {
+      case "phone":
+        updatedProduct = await Phone.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          {
+            overwriteDiscriminatorKey: true, new: true,
+          }
+        )
+        break
+      case "computer":
+        updatedProduct = await Computer.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          {
+            overwriteDiscriminatorKey: true, new: true,
+          }
+        )
+        break
+      case "gaming":
+        updatedProduct = await Games.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          {
+            overwriteDiscriminatorKey: true, new: true,
+          }
+        )
+        break
+      case "tv":
+        updatedProduct = await TVScreen.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          {
+            overwriteDiscriminatorKey: true, new: true,
+          }
+        )
+        break
+    }
+    if (updatedProduct !== null) {
+      res.status(200).json(updatedProduct)
+    }
   } catch (error: any) {
     res.status(401).json({ error: error.message })
   }

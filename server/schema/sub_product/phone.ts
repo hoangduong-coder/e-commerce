@@ -8,7 +8,15 @@ const phoneProductSchema = new Schema({
     enum: ["Accessories", "Gaming"],
   },
   price: { type: [Number], required: true },
-  color: { type: [String], required: true },
+  color: {
+    type: [
+      {
+        colorCode: { type: String, required: true },
+        colorName: { type: String, required: true },
+      },
+    ],
+    required: true,
+  },
   screenSize: { type: Number, required: true }, //By inches
   screenResolution: { type: String, required: true },
   compatibility: { type: String, required: true }, //Available connectors: USB Type C, HDMI, etc.
@@ -27,7 +35,7 @@ const phoneProductSchema = new Schema({
     required: true,
   },
   processor: String,
-  refreshRate: Number,  //by Hz
+  refreshRate: Number, //by Hz
   supportedNetwork: { type: String, required: true }, //Available network info: e.g., Bluetooth, Wifi, 4G-5G.
 })
 

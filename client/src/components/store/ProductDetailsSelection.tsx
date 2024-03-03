@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import {
   Alert,
   Box,
@@ -100,7 +102,7 @@ const ProductDetailsSelection = ({
         {(product as PhoneProduct).color && (
           <>
             <Typography variant="body1" marginTop={1}>
-              Select color
+              Selected color: <b>{selectedColor.colorName}</b>
             </Typography>
             <ToggleButtonGroup
               color="primary"
@@ -112,11 +114,13 @@ const ProductDetailsSelection = ({
             >
               {(product as PhoneProduct).color.map((color) => (
                 <ToggleButton
-                  key={color}
+                  key={color.colorCode}
                   value={color}
-                  selected={color === selectedColor}
+                  selected={color.colorCode === selectedColor.colorCode}
                 >
-                  <ThemeProvider theme={{ palette: { primary: color } }}>
+                  <ThemeProvider
+                    theme={{ palette: { primary: color.colorCode } }}
+                  >
                     <Box
                       sx={{
                         width: "90%",

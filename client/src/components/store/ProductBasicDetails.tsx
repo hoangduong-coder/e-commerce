@@ -2,7 +2,11 @@
 
 import { Grid, Typography } from "@mui/material"
 import { MouseEvent, useEffect, useState } from "react"
-import { ComputerProduct, PhoneProduct } from "types/helpers/productHelper"
+import {
+  Color,
+  ComputerProduct,
+  PhoneProduct,
+} from "types/helpers/productHelper"
 
 import { PricingMethod } from "types/product"
 import { priceMethods } from "../../utils"
@@ -26,8 +30,8 @@ const ProductBasicDetails = ({
     value: "",
   })
   const [selectedMemory, setSelectedMemory] = useState<number>(0)
-  const [selectedColor, setSelectedColor] = useState<string>(
-    (product as PhoneProduct).color[0] ?? ""
+  const [selectedColor, setSelectedColor] = useState<Color>(
+    (product as PhoneProduct).color[0] ?? { colorCode: "", colorName: "" }
   )
 
   useEffect(() => {
@@ -84,7 +88,7 @@ const ProductBasicDetails = ({
 
   const handleChangeColor = (
     _event: MouseEvent<HTMLElement>,
-    newColor: string
+    newColor: Color
   ) => {
     setSelectedColor(newColor)
   }
