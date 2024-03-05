@@ -39,7 +39,7 @@ const ProductDetailsSelection = ({
   const [disabled, setDisabled] = useState(false)
 
   useEffect(() => {
-    if (orders.find((order) => order.productID === product.id)) {
+    if (orders.find((order) => order.product.id === product.id)) {
       setDisabled(true)
     } else {
       setDisabled(false)
@@ -48,11 +48,12 @@ const ProductDetailsSelection = ({
 
   const addNewOrder = () => {
     const newOrder = {
-      productID: product.id,
+      product: product,
       quantity: 1,
       selectedInnerMemory: selectedMemory,
       selectedColor: selectedColor,
       selectedPaymentDuration: pricingMethod.key,
+      price: selectedPrice,
     }
     if (cookies.orders) {
       setCookies("orders", cookies.orders.concat(newOrder), { path: "/" })
