@@ -15,11 +15,11 @@ function App() {
       errorElement: <NotFoundPage />,
       children: [
         {
-          path: "/:categoryId",
+          path: "/:categoryParam",
           element: <Products />,
         },
         {
-          path: "/:categoryId/:productId",
+          path: "/:categoryParam/:productId",
           element: <ProductDetail />,
         },
         {

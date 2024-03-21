@@ -56,15 +56,32 @@ const ChangeOrderDialog = ({
     const initialPricingMethods =
       firstPrice < 300 ? priceMethods.slice(1) : priceMethods
     setPricingMethodList(initialPricingMethods)
+
+    setInitialPrice(firstPrice)
   }, [])
+
+  useEffect(() => {
+    if (selectedMemory) {
+      const index = orderDetail.product.innerMemory.indexOf(selectedMemory)
+      setInitialPrice((orderDetail.product.price as number[])[index])
+    }
+    if (
+      pricingMethodList.indexOf(pricingMethod) !==
+      pricingMethodList.length - 1
+    ) {
+      setSelectedPrice(
+        parseFloat((initialPrice / pricingMethod.key).toFixed(2))
+      )
+    } else {
+      setSelectedPrice(initialPrice)
+    }
+  }, [selectedMemory, pricingMethod])
 
   const handleChangeMemory = (
     _event: MouseEvent<HTMLElement>,
     newMemorySize: number
   ) => {
     setSelectedMemory(newMemorySize)
-    const index = orderDetail.product.innerMemory.indexOf(newMemorySize)
-    setInitialPrice((orderDetail.product.price as number[])[index])
   }
 
   const handleChangeColor = (
@@ -79,14 +96,6 @@ const ChangeOrderDialog = ({
     newMethods: PricingMethod
   ) => {
     setPricingMethod(newMethods)
-    if (
-      pricingMethodList.indexOf(newMethods) !==
-      pricingMethodList.length - 1
-    ) {
-      setSelectedPrice(parseFloat((initialPrice / newMethods.key).toFixed(2)))
-    } else {
-      setSelectedPrice(initialPrice)
-    }
   }
 
   return (
@@ -191,11 +200,7 @@ const ChangeOrderDialog = ({
             </Typography>
             <ToggleButtonGroup
               color="primary"
-              value={
-                pricingMethodList.find(
-                  (method) => method.key === orderDetail.selectedPaymentDuration
-                ) ?? pricingMethodList[0]
-              }
+              value={pricingMethodList}
               exclusive
               onChange={handleChangePriceMethods}
               className="product-basic-details-selectionMethod"

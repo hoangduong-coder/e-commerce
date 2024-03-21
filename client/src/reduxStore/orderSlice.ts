@@ -15,7 +15,10 @@ const orderSlice = createSlice({
       state.all = state.all.map(order => order.product.id === action.payload.product.id ? action.payload : order)
     },
     createOrder: (state, action) => {
-      state.all = state.all.concat(action.payload)
+      state.all.push(action.payload)
+    },
+    deleteOrder: (state, action) => {
+      state.all = state.all.filter(order => order.product.id !== action.payload)
     },
     initializeAll: (state, action) => {
       state.all = action.payload
@@ -23,7 +26,7 @@ const orderSlice = createSlice({
   }
 })
 
-export const { updateOrder, createOrder, initializeAll } = orderSlice.actions
+export const { updateOrder, createOrder, deleteOrder, initializeAll } = orderSlice.actions
 
 export const addToCart = (productOrderData: OrderedProduct) => {
   return (dispatch: AppDispatch) => {

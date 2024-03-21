@@ -4,18 +4,22 @@ import {
   Button,
   Card,
   CardMedia,
+  Link,
   Skeleton,
   Stack,
   Typography,
 } from "@mui/material"
 import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 
-import { useAppSelector } from "reduxStore/hooks"
+import { deleteOrder } from "reduxStore/orderSlice"
 import { OrderedProduct } from "types/order"
 import ChangeOrderDialog from "./ChangeOrderDialog"
 
 const OrderList = () => {
+  const dispatch = useAppDispatch()
   const orders = useAppSelector((state) => state.orders.all)
+
   const [orderList, setOrderList] = useState<OrderedProduct[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [openSetting, setOpenSetting] = useState<boolean>(false)
@@ -29,20 +33,16 @@ const OrderList = () => {
     return <Skeleton variant="rectangular" height={60} />
   }
 
-  const priceFormat = (price: number, methodKey: number) => {
-    if (methodKey === 0) {
-      return `${price}€`
-    } else {
-      return `${(price / methodKey).toFixed(2)}€/month`
-    }
-  }
-
   const handleOpenSettings = () => {
     setOpenSetting(true)
   }
 
   const handleCloseSettings = () => {
     setOpenSetting(false)
+  }
+
+  const handleDeleteOrder = (productId: string) => {
+    dispatch(deleteOrder(productId))
   }
 
   return (
@@ -77,12 +77,18 @@ const OrderList = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography gutterBottom variant="h5" component="div">
+                <Link
+                  href={`${order.product.category}/${order.product.id}`}
+                  underline="hover"
+                  variant="h5"
+                  color="inherit"
+                >
                   {order.product.title}
-                </Typography>
+                </Link>
                 <Typography gutterBottom variant="h6" component="div">
                   <b>
-                    {priceFormat(order.price, order.selectedPaymentDuration)}
+                    {order.price}€
+                    {order.selectedPaymentDuration !== 0 && "/month"}
                   </b>
                 </Typography>
               </Stack>
@@ -127,6 +133,9 @@ const OrderList = () => {
                   color="error"
                   fullWidth
                   startIcon={<Delete />}
+                  onClick={() => {
+                    handleDeleteOrder(order.product.id)
+                  }}
                 >
                   Delete order
                 </Button>

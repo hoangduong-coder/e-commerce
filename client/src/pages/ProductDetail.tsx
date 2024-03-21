@@ -11,10 +11,12 @@ import { initializeProductDetail } from "reduxStore/productSlice"
 import { CATEGORIES } from "../utils"
 
 const ProductDetail = () => {
-  const { productId, categoryId } = useParams()
+  const { productId, categoryParam } = useParams()
   const dispatch = useAppDispatch()
   const product = useAppSelector((state) => state.products.byId)
-  const category = CATEGORIES.find((item) => item.id === categoryId)
+  const category = CATEGORIES.find(
+    (item) => item.id === categoryParam || item.type === categoryParam
+  )
   const loading = useAppSelector((state) => state.products.loading)
 
   useEffect(() => {
@@ -34,13 +36,13 @@ const ProductDetail = () => {
         </Grid>
       ) : (
         <div>
-          {categoryId && (
+          {categoryParam && (
             <>
               <Breadcrumbs>
                 <Link className="text-link" to="/">
                   Store
                 </Link>
-                <Link className="text-link" to={`/${categoryId}`}>
+                <Link className="text-link" to={`/${categoryParam}`}>
                   {category?.title}
                 </Link>
                 <Typography color="text.primary">{product.title}</Typography>

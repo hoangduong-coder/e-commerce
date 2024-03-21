@@ -20,7 +20,7 @@ export const CATEGORIES = [
     id: "tv",
     title: "TV & Accessories",
     pictureUrl: picture3,
-    type: "TV",
+    type: "TVScreen",
   },
   {
     id: "games",

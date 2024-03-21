@@ -27,7 +27,7 @@ import { initializeProducts } from "reduxStore/productSlice"
 import { CATEGORIES } from "../utils"
 
 const Products = () => {
-  const { categoryId } = useParams()
+  const { categoryParam } = useParams()
   const dispatch = useAppDispatch()
   const initialProductList = useAppSelector((state) => state.products.all)
 
@@ -64,12 +64,14 @@ const Products = () => {
   ]
 
   useEffect(() => {
-    const findCategory = CATEGORIES.find((item) => item.id === categoryId)
+    const findCategory = CATEGORIES.find(
+      (item) => item.id === categoryParam || item.type === categoryParam
+    )
     if (findCategory) {
       setCategory(findCategory)
       dispatch(initializeProducts({ category: findCategory.type }))
     }
-  }, [categoryId])
+  }, [categoryParam])
 
   useEffect(() => {
     setProductList(initialProductList)
