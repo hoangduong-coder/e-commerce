@@ -42,10 +42,9 @@ const ChangeOrderDialog = ({
     orderDetail.selectedInnerMemory
   )
   const [selectedPrice, setSelectedPrice] = useState<number>(0)
-  const [pricingMethod, setPricingMethod] = useState<PricingMethod>({
-    key: 0,
-    value: "",
-  })
+  const [pricingMethod, setPricingMethod] = useState<number>(
+    orderDetail.selectedPaymentDuration || 0
+  )
 
   useEffect(() => {
     const firstPrice =
@@ -65,13 +64,8 @@ const ChangeOrderDialog = ({
       const index = orderDetail.product.innerMemory.indexOf(selectedMemory)
       setInitialPrice((orderDetail.product.price as number[])[index])
     }
-    if (
-      pricingMethodList.indexOf(pricingMethod) !==
-      pricingMethodList.length - 1
-    ) {
-      setSelectedPrice(
-        parseFloat((initialPrice / pricingMethod.key).toFixed(2))
-      )
+    if (pricingMethod !== 0) {
+      setSelectedPrice(parseFloat((initialPrice / pricingMethod).toFixed(2)))
     } else {
       setSelectedPrice(initialPrice)
     }
@@ -95,7 +89,7 @@ const ChangeOrderDialog = ({
     _event: MouseEvent<HTMLElement>,
     newMethods: PricingMethod
   ) => {
-    setPricingMethod(newMethods)
+    setPricingMethod(newMethods.key)
   }
 
   return (
@@ -117,7 +111,7 @@ const ChangeOrderDialog = ({
               quantity: quantity,
               selectedInnerMemory: innerMemory,
               selectedColor: color,
-              selectedPaymentDuration: pricingMethod.key,
+              selectedPaymentDuration: pricingMethod,
               price: selectedPrice,
             })
           )
@@ -210,7 +204,7 @@ const ChangeOrderDialog = ({
                 <ToggleButton
                   key={method.key}
                   value={method}
-                  selected={method.key === pricingMethod?.key}
+                  selected={method.key === pricingMethod}
                 >
                   {method.value}
                 </ToggleButton>

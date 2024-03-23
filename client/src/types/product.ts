@@ -40,7 +40,7 @@ export type PricingMethod = { key: number, value: string }
 
 export type ProductDetailSelectionProps = {
   initialPricingMethods: Array<PricingMethod>,
-  pricingMethod: PricingMethod,
+  pricingMethod: number,
   selectedPrice: number,
   product: PhoneProduct | ComputerProduct,
   handleChangeMemory: (e: any, value: any) => void,

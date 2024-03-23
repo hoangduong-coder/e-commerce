@@ -34,7 +34,6 @@ export const { updateOrder, createOrder, deleteOrder, initializeAll } = orderSli
 export const addToCart = (productOrderData: OrderedProduct) => {
   return (dispatch: AppDispatch) => {
     if (!initialState.all.find(order => order.product.id === productOrderData.product.id)) {
-      console.log("here")
       dispatch(createOrder(productOrderData))
     }
   }

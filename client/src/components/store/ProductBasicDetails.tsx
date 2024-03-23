@@ -25,10 +25,7 @@ const ProductBasicDetails = ({
 
   //user selection data
   const [selectedPrice, setSelectedPrice] = useState<number>(0)
-  const [pricingMethod, setPricingMethod] = useState<PricingMethod>({
-    key: 0,
-    value: "",
-  })
+  const [pricingMethod, setPricingMethod] = useState<number>(0)
   const [selectedMemory, setSelectedMemory] = useState<number>(0)
   const [selectedColor, setSelectedColor] = useState<Color>(
     (product as PhoneProduct).color[0] ?? { colorCode: "", colorName: "" }
@@ -43,7 +40,9 @@ const ProductBasicDetails = ({
     const initialPricingMethods =
       firstPrice < 300 ? priceMethods.slice(1) : priceMethods
     setPricingMethodList(initialPricingMethods)
-    setPricingMethod(initialPricingMethods[initialPricingMethods.length - 1])
+    setPricingMethod(
+      initialPricingMethods[initialPricingMethods.length - 1].key
+    )
 
     setSelectedMemory(
       typeof product.innerMemory !== "number"
@@ -53,10 +52,8 @@ const ProductBasicDetails = ({
   }, [])
 
   useEffect(() => {
-    if (pricingMethod.key !== 0) {
-      setSelectedPrice(
-        parseFloat((initialPrice / pricingMethod.key).toFixed(2))
-      )
+    if (pricingMethod !== 0) {
+      setSelectedPrice(parseFloat((initialPrice / pricingMethod).toFixed(2)))
     } else {
       setSelectedPrice(initialPrice)
     }
@@ -66,12 +63,12 @@ const ProductBasicDetails = ({
     _event: MouseEvent<HTMLElement>,
     newMethods: PricingMethod
   ) => {
-    setPricingMethod(newMethods)
-    if (
-      pricingMethodList.indexOf(newMethods) !==
-      pricingMethodList.length - 1
-    ) {
-      setSelectedPrice(parseFloat((initialPrice / newMethods.key).toFixed(2)))
+    const newPricingMethodKey = newMethods.key
+    setPricingMethod(newPricingMethodKey)
+    if (newPricingMethodKey !== 0) {
+      setSelectedPrice(
+        parseFloat((initialPrice / newPricingMethodKey).toFixed(2))
+      )
     } else {
       setSelectedPrice(initialPrice)
     }

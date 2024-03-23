@@ -50,7 +50,7 @@ const ProductDetailsSelection = ({
       quantity: 1,
       selectedInnerMemory: selectedMemory,
       selectedColor: selectedColor,
-      selectedPaymentDuration: pricingMethod.key,
+      selectedPaymentDuration: pricingMethod,
       price: selectedPrice,
     }
     dispatch(addToCart(newOrder))
@@ -61,8 +61,8 @@ const ProductDetailsSelection = ({
       <CardContent>
         <Stack direction="row" spacing={1} alignItems="flex-end">
           <Typography variant="h4" component="div">
-            {pricingMethod.key !== 0 && "From "}
-            {selectedPrice}€{pricingMethod.key !== 0 && "/month"}
+            {pricingMethod !== 0 && "From "}
+            {selectedPrice}€{pricingMethod !== 0 && "/month"}
           </Typography>
           <Typography variant="body2" color="text.secondary" component="div">
             VAT 24%
@@ -144,7 +144,7 @@ const ProductDetailsSelection = ({
             <ToggleButton
               key={method.key}
               value={method}
-              selected={method.key === pricingMethod?.key}
+              selected={method.key === pricingMethod}
             >
               {method.value}
             </ToggleButton>
