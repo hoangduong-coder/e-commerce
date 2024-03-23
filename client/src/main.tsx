@@ -3,7 +3,6 @@ import "./index.css"
 import { ThemeProvider } from "@emotion/react"
 import { createTheme } from "@mui/material"
 import React from "react"
-import { CookiesProvider } from "react-cookie"
 import ReactDOM from "react-dom/client"
 import { Provider } from "react-redux"
 import { store } from "reduxStore/store.ts"
@@ -20,12 +19,10 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <CookiesProvider defaultSetOptions={{ path: "/" }}>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </Provider>
-    </CookiesProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>
 )

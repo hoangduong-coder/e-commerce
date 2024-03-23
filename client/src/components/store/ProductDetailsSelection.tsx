@@ -16,7 +16,6 @@ import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "reduxStore/hooks"
 
 import { ThemeProvider } from "@emotion/react"
-import { useCookies } from "react-cookie"
 import { Link } from "react-router-dom"
 import { addToCart } from "reduxStore/orderSlice"
 import { PhoneProduct } from "types/helpers/productHelper"
@@ -35,7 +34,6 @@ const ProductDetailsSelection = ({
 }: ProductDetailSelectionProps) => {
   const dispatch = useAppDispatch()
   const orders = useAppSelector((state) => state.orders.all)
-  const [cookies, setCookies] = useCookies(["orders"])
   const [disabled, setDisabled] = useState(false)
 
   useEffect(() => {
@@ -54,11 +52,6 @@ const ProductDetailsSelection = ({
       selectedColor: selectedColor,
       selectedPaymentDuration: pricingMethod.key,
       price: selectedPrice,
-    }
-    if (cookies.orders) {
-      setCookies("orders", cookies.orders.concat(newOrder), { path: "/" })
-    } else {
-      setCookies("orders", [newOrder], { path: "/" })
     }
     dispatch(addToCart(newOrder))
   }

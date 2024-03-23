@@ -58,3 +58,5 @@ export const orderApi = `${import.meta.env.VITE_SERVER_URL}/api/orders`
 export const productApi = `${import.meta.env.VITE_SERVER_URL}/api/products`
 export const userApi = `${import.meta.env.VITE_SERVER_URL}/api/users`
 export const loginApi = `${import.meta.env.VITE_SERVER_URL}/api/auth`
+
+export const orderFromLocalStorage = JSON.parse(localStorage.getItem("orders") || "[]")

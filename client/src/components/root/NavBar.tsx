@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import "./layout.scss"
 
 import { AccountCircle, ShoppingCart } from "@mui/icons-material"
@@ -11,11 +13,11 @@ import {
   Typography,
 } from "@mui/material"
 
-import { useCookies } from "react-cookie"
 import { Link } from "react-router-dom"
+import { useAppSelector } from "reduxStore/hooks"
 
 const NavBar = () => {
-  const [cookies] = useCookies(["orders"])
+  const orders = useAppSelector((state) => state.orders.all)
 
   return (
     <AppBar position="static">
@@ -29,8 +31,8 @@ const NavBar = () => {
         <Box className="nav-link">
           <Link to="/orders" className="navbar-home-link">
             <IconButton size="large" color="inherit">
-              {cookies.orders?.length > 0 ? (
-                <Badge badgeContent={cookies.orders.length} color="error">
+              {orders.length > 0 ? (
+                <Badge badgeContent={orders.length} color="error">
                   <ShoppingCart />
                 </Badge>
               ) : (

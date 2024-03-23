@@ -13,12 +13,15 @@ const orderSlice = createSlice({
   reducers: {
     updateOrder: (state, action) => {
       state.all = state.all.map(order => order.product.id === action.payload.product.id ? action.payload : order)
+      localStorage.setItem("orders", JSON.stringify(state.all))
     },
     createOrder: (state, action) => {
       state.all.push(action.payload)
+      localStorage.setItem("orders", JSON.stringify(state.all))
     },
     deleteOrder: (state, action) => {
       state.all = state.all.filter(order => order.product.id !== action.payload)
+      localStorage.setItem("orders", JSON.stringify(state.all))
     },
     initializeAll: (state, action) => {
       state.all = action.payload
@@ -30,7 +33,8 @@ export const { updateOrder, createOrder, deleteOrder, initializeAll } = orderSli
 
 export const addToCart = (productOrderData: OrderedProduct) => {
   return (dispatch: AppDispatch) => {
-    if (initialState.all.find(order => order.product.id !== productOrderData.product.id)) {
+    if (!initialState.all.find(order => order.product.id === productOrderData.product.id)) {
+      console.log("here")
       dispatch(createOrder(productOrderData))
     }
   }

@@ -5,21 +5,20 @@ import NavBar from "components/root/NavBar"
 import SubNavBar from "components/root/SubNavBar"
 import Home from "pages/Home"
 import { useEffect } from "react"
-import { useCookies } from "react-cookie"
 import { useAppDispatch } from "reduxStore/hooks"
 import { initializeAll } from "reduxStore/orderSlice"
+import { orderFromLocalStorage } from "../utils"
 
 const Root = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const [cookies] = useCookies(["orders"])
 
   useEffect(() => {
-    if (cookies.orders?.length > 0) {
-      dispatch(initializeAll(cookies.orders))
+    if (orderFromLocalStorage.length > 0) {
+      dispatch(initializeAll(orderFromLocalStorage))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [localStorage])
 
   return (
     <>
