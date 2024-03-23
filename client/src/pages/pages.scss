@@ -12,11 +12,6 @@
       max-height: 30vh;
       object-fit: cover;
     }
-
-    & .link {
-      color: inherit;
-      text-decoration: none;
-    }
   }
 }
 
@@ -90,4 +85,9 @@
 
 .text-link {
   color: inherit;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
 }
