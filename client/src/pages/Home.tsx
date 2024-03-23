@@ -39,7 +39,7 @@ const Home = () => {
             />
             <CardActions>
               <Button size="small">
-                <Link to={category.id} className="link">
+                <Link to={category.id} className="no-underline-link">
                   Learn More
                 </Link>
               </Button>

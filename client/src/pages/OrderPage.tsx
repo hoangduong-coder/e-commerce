@@ -36,7 +36,7 @@ const OrderPage = () => {
             There are no orders in this cart.
           </Typography>
           <Button variant="contained" sx={{ mt: 2 }}>
-            <Link to="/" className="link">
+            <Link to="/" className="no-underline-link">
               Back to shopping
             </Link>
           </Button>

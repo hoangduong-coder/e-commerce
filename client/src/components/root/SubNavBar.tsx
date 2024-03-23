@@ -38,7 +38,7 @@ const SubNavBar = () => {
           >
             {CATEGORIES.map((category) => (
               <MenuItem key={category.id} onClick={handleClose}>
-                <Link className="category-menu-item" to={category.id}>
+                <Link className="no-underline-link" to={category.id}>
                   {category.title}
                 </Link>
               </MenuItem>

@@ -10,3 +10,12 @@
   --spacing: 8px;
   font-family: "Montserrat", sans-serif;
 }
+
+.text-link {
+  color: inherit;
+}
+
+.no-underline-link {
+  color: inherit;
+  text-decoration: none;
+}
