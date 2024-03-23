@@ -27,6 +27,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             sx={{ height: 160 }}
             image={product.picture}
             title={product.title}
+            component="img"
           />
           <CardContent className="product-card-content">
             <Grid
