@@ -2,7 +2,7 @@ import bcrypt from "bcrypt"
 import { Router } from "express"
 import jwt from "jsonwebtoken"
 import { SECRET_KEY } from "../helper/utils"
-import User from "../schema/user"
+import User from "../model/user"
 
 const loginRouter = Router()
 

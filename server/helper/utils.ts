@@ -3,13 +3,14 @@ import * as dotenv from "dotenv"
 import { Request, Response } from "express"
 import jwt, { JwtPayload, Secret } from "jsonwebtoken"
 
-import User from "../schema/user"
+import User from "../model/user"
 
 dotenv.config()
 
 export const PORT = process.env.PORT
 export const SECRET_KEY: Secret = process.env.SECRET as Secret
 export const MONGO_URL: string = process.env.MONGO_URL as string
+export const RABBITMQURI: string = process.env.RABBITMQURI as string
 
 export const verifyAdmin = async (request: Request, response: Response) => {
   const authorizedToken = request.headers["authorization"]

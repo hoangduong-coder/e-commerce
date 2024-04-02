@@ -1,11 +1,11 @@
 import { Request, Response, Router } from "express"
 
 import { verifyAdmin } from "../helper/utils"
-import Product from "../schema/product"
-import Computer from "../schema/sub_product/computer"
-import Games from "../schema/sub_product/games"
-import Phone from "../schema/sub_product/phone"
-import TVScreen from "../schema/sub_product/tv_screen"
+import Product from "../model/product"
+import Computer from "../model/sub_product/computer"
+import Games from "../model/sub_product/games"
+import Phone from "../model/sub_product/phone"
+import TVScreen from "../model/sub_product/tv_screen"
 
 const productRouter = Router()
 

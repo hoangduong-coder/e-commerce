@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { passwordStrength } from "check-password-strength";
 import { Router } from "express";
-import User from "../schema/user";
+import User from "../model/user";
 
 const userRouter = Router()
 

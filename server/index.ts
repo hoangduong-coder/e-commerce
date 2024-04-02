@@ -4,10 +4,10 @@ import { MONGO_URL, PORT } from "./helper/utils"
 import cors from "cors"
 import express from "express"
 import mongoose from "mongoose"
-import loginRouter from "./router/auth"
-import orderRouter from "./router/order"
-import productRouter from "./router/product"
-import userRouter from "./router/user"
+import loginRouter from "./controller/auth"
+import orderRouter from "./controller/order"
+import productRouter from "./controller/product"
+import userRouter from "./controller/user"
 
 const app = express()
 

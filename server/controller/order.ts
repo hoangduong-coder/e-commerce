@@ -2,10 +2,10 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import { SECRET_KEY, verifyAdmin } from "../helper/utils"
 
 import { Router } from "express"
-import Order from "../schema/order"
-import Product from "../schema/product"
-import Phone from "../schema/sub_product/phone"
-import User from "../schema/user"
+import Order from "../model/order"
+import Product from "../model/product"
+import Phone from "../model/sub_product/phone"
+import User from "../model/user"
 import { PhoneProduct } from "../types/products"
 
 const orderRouter = Router()
