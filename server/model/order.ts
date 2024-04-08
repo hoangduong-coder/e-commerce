@@ -10,7 +10,7 @@ const orderSchema = new Schema(
     orders: {
       type: [
         {
-          orderedProduct: {
+          item: {
             type: Schema.Types.ObjectId,
             ref: "Product",
             required: true,
@@ -20,8 +20,15 @@ const orderSchema = new Schema(
             required: true,
           },
           selectedInnerMemory: Number,
-          selectedColor: String,
+          selectedColor: {
+            colorCode: String,
+            colorName: String
+          },
           selectedPaymentDuration: {
+            type: Number,
+            required: true,
+          },
+          price: {
             type: Number,
             required: true,
           },
