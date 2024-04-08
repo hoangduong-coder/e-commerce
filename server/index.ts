@@ -20,9 +20,9 @@ app.use(cors())
 app.use(express.static("dist"))
 app.use(express.json())
 
-app.use('/api/products', productRouter)
-app.use('/api/users', userRouter)
-app.use('/api/auth', loginRouter)
+app.use("/api/products", productRouter)
+app.use("/api/users", userRouter)
+app.use("/api/auth", loginRouter)
 app.use("/api/orders", orderRouter)
 
 app.use(unknownEndpoint)
