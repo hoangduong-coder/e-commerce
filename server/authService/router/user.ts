@@ -19,11 +19,12 @@ userRouter.get(
 )
 
 userRouter.post("/", async (req: Request, res: Response): Promise<Response> => {
-  if (passwordStrength(req.body.password).id < 2) {
-    return res
-      .status(400)
-      .json({ error: "Your password is not strong enough!" })
-  } else {
+  try {
+    if (passwordStrength(req.body.password).id < 2) {
+      return res
+        .status(400)
+        .json({ error: "Your password is not strong enough!" })
+    }
     const passwordHash = await bcrypt.hash(req.body.password, 10)
     const user = new User({
       name: req.body.name,
@@ -37,6 +38,8 @@ userRouter.post("/", async (req: Request, res: Response): Promise<Response> => {
     })
     const savedUser = await user.save()
     return res.status(201).json(savedUser)
+  } catch (error: any) {
+    return res.status(401).json({ error: error.message })
   }
 })
 
