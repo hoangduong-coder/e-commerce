@@ -2,6 +2,6 @@ client/node_modules
 client/.env
 
 server/*/node_modules
-server/.env
+server/*/.env
 
 old_server
