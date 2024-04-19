@@ -1,5 +1,5 @@
-FROM node:latest
-WORKDIR /server
+FROM node:18-alpine
+WORKDIR /authService
 COPY package*.json ./
 COPY . .
 RUN npm install
