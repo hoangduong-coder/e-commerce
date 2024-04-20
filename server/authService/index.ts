@@ -1,5 +1,5 @@
 import { handleError, unknownEndpoint } from "./helper/middleware"
-import { MONGO_URL, PORT } from "./helper/utils"
+import { MONGO_URL, PORT, consumeVerifyAdminMessage } from "./helper/utils"
 
 import cors from "cors"
 import express from "express"
@@ -20,6 +20,8 @@ app.use(express.json())
 
 app.use("/api/users", userRouter)
 app.use("/api/auth", loginRouter)
+
+consumeVerifyAdminMessage()
 
 app.use(unknownEndpoint)
 app.use(handleError)
