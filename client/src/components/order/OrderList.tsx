@@ -8,9 +8,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material"
+
 import { useState } from "react"
 import { useAppDispatch } from "reduxStore/hooks"
-
 import { deleteOrder } from "reduxStore/orderSlice"
 import { OrderedProduct } from "types/order"
 import ChangeOrderDialog from "./ChangeOrderDialog"
@@ -37,14 +37,14 @@ const OrderList = ({ orderList }: { orderList: OrderedProduct[] }) => {
       {orderList.map((order) => (
         <Card
           variant="outlined"
-          key={order.product.id}
+          key={order.item.id}
           sx={{ display: "flex", flexDirection: "row", marginTop: 2 }}
         >
           <CardMedia
             component="img"
             sx={{ width: 150 }}
-            image={order.product.picture}
-            alt={order.product.title}
+            image={order.item.picture}
+            alt={order.item.title}
           />
           <Box
             sx={{
@@ -60,12 +60,12 @@ const OrderList = ({ orderList }: { orderList: OrderedProduct[] }) => {
               justifyContent="space-between"
             >
               <Link
-                href={`${order.product.category}/${order.product.id}`}
+                href={`${order.item.category}/${order.item.id}`}
                 underline="hover"
                 variant="h5"
                 color="inherit"
               >
-                {order.product.title}
+                {order.item.title}
               </Link>
               <Typography gutterBottom variant="h6" component="div">
                 <b>
@@ -75,7 +75,7 @@ const OrderList = ({ orderList }: { orderList: OrderedProduct[] }) => {
               </Typography>
             </Stack>
             <Typography gutterBottom variant="body1" component="div">
-              {order.product.brand}
+              {order.item.brand}
             </Typography>
             <Stack direction="row" alignItems="center">
               <Typography
@@ -116,7 +116,7 @@ const OrderList = ({ orderList }: { orderList: OrderedProduct[] }) => {
                 fullWidth
                 startIcon={<Delete />}
                 onClick={() => {
-                  handleDeleteOrder(order.product.id)
+                  handleDeleteOrder(order.item.id)
                 }}
               >
                 Delete order

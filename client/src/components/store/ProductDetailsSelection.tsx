@@ -37,7 +37,7 @@ const ProductDetailsSelection = ({
   const [disabled, setDisabled] = useState(false)
 
   useEffect(() => {
-    if (orders.find((order) => order.product.id === product.id)) {
+    if (orders.find((order) => order.item.id === product.id)) {
       setDisabled(true)
     } else {
       setDisabled(false)
@@ -46,7 +46,7 @@ const ProductDetailsSelection = ({
 
   const addNewOrder = () => {
     const newOrder = {
-      product: product,
+      item: product,
       quantity: 1,
       selectedInnerMemory: selectedMemory,
       selectedColor: selectedColor,

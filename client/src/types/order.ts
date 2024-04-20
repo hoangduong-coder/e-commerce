@@ -1,7 +1,7 @@
 import { Color, ComputerProduct, PhoneProduct } from "./helpers/productHelper"
 
 export interface OrderedProduct {
-  product: PhoneProduct | ComputerProduct,
+  item: PhoneProduct | ComputerProduct,
   quantity: number,
   selectedInnerMemory?: number,
   selectedColor?: Color,

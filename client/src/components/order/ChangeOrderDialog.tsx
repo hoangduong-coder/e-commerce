@@ -48,9 +48,9 @@ const ChangeOrderDialog = ({
 
   useEffect(() => {
     const firstPrice =
-      typeof orderDetail.product.price === "number"
-        ? orderDetail.product.price
-        : orderDetail.product.price[0]
+      typeof orderDetail.item.price === "number"
+        ? orderDetail.item.price
+        : orderDetail.item.price[0]
 
     const initialPricingMethods =
       firstPrice < 300 ? priceMethods.slice(1) : priceMethods
@@ -61,8 +61,8 @@ const ChangeOrderDialog = ({
 
   useEffect(() => {
     if (selectedMemory) {
-      const index = orderDetail.product.innerMemory.indexOf(selectedMemory)
-      setInitialPrice((orderDetail.product.price as number[])[index])
+      const index = orderDetail.item.innerMemory.indexOf(selectedMemory)
+      setInitialPrice((orderDetail.item.price as number[])[index])
     }
     if (pricingMethod !== 0) {
       setSelectedPrice(parseFloat((initialPrice / pricingMethod).toFixed(2)))
@@ -107,7 +107,7 @@ const ChangeOrderDialog = ({
           const innerMemory = selectedMemory
           dispatch(
             updateOrder({
-              product: orderDetail.product,
+              product: orderDetail.item,
               quantity: quantity,
               selectedInnerMemory: innerMemory,
               selectedColor: color,
@@ -130,7 +130,7 @@ const ChangeOrderDialog = ({
           variant="standard"
           value={orderDetail.quantity}
         />
-        {typeof orderDetail.product.innerMemory !== "number" && (
+        {typeof orderDetail.item.innerMemory !== "number" && (
           <>
             <Typography variant="body1" marginTop={1}>
               Select inner memory size
@@ -143,7 +143,7 @@ const ChangeOrderDialog = ({
               className="product-basic-details-selectionMethod"
               fullWidth
             >
-              {orderDetail.product.innerMemory.map((size) => (
+              {orderDetail.item.innerMemory.map((size) => (
                 <ToggleButton
                   key={size}
                   value={size}
@@ -155,20 +155,20 @@ const ChangeOrderDialog = ({
             </ToggleButtonGroup>
           </>
         )}
-        {(orderDetail.product as PhoneProduct).color && (
+        {(orderDetail.item as PhoneProduct).color && (
           <>
             <Typography variant="body1" marginTop={1}>
               Selected color: <b>{selectedColor?.colorName}</b>
             </Typography>
             <ToggleButtonGroup
               color="primary"
-              value={(orderDetail.product as PhoneProduct).color}
+              value={(orderDetail.item as PhoneProduct).color}
               exclusive
               onChange={handleChangeColor}
               className="product-basic-details-selectionMethod"
               fullWidth
             >
-              {(orderDetail.product as PhoneProduct).color.map((color) => (
+              {(orderDetail.item as PhoneProduct).color.map((color) => (
                 <ToggleButton
                   key={color.colorCode}
                   value={color}
