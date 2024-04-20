@@ -20,10 +20,20 @@ export const verifyAdmin = async (authHeader: string | undefined) => {
       await createChannel()
     }
     const exchangeName = "VERIFY_ADMIN"
+    await channel.assertQueue(exchangeName, { durable: false })
 
-    await channel.assertExchange(exchangeName, "direct")
-    await channel.publish(exchangeName, "", Buffer.from(JSON.stringify({ token: authHeader })))
+    channel.consume(exchangeName, (data: any) => {
+      const result = JSON.parse(data.content)
+      console.log(result)
+      return result
+    })
+
+    channel.sendToQueue(
+      exchangeName,
+      Buffer.from(JSON.stringify({ token: authHeader }))
+    )
   } catch (err: any) {
     console.log("Error in verifying admin", err.message)
+    return false
   }
 }

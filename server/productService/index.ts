@@ -23,5 +23,5 @@ app.use(unknownEndpoint)
 app.use(handleError)
 
 app.listen(PORT, () => {
-  console.log("New e-commerce authentication microservice is ready")
+  console.log("New e-commerce product microservice is ready")
 })
