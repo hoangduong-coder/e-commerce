@@ -21,8 +21,8 @@ export const consumeVerifyAdminMessage = async () => {
   })
 
   channel.consume(queueName, (data: any) => {
+    if (!data) return
     const { token } = JSON.parse(data.content)
-
     if (!token) {
       channel.sendToQueue(
         queueName,
@@ -49,6 +49,8 @@ export const consumeVerifyAdminMessage = async () => {
               queueName,
               Buffer.from(JSON.stringify({ passed: true }))
             )
+            channel.ack(data)
+
           }
         }
       )

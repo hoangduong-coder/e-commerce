@@ -5,7 +5,7 @@ import { RABBITMQURI } from "./helper/utils"
 let connection: amqp.Connection
 let channel: amqp.Channel
 
-const createChannel = async () => {
+export const createChannel = async () => {
   try {
     connection = await amqp.connect(RABBITMQURI)
     channel = await connection.createChannel()
@@ -16,22 +16,21 @@ const createChannel = async () => {
 
 export const verifyAdmin = async (authHeader: string | undefined) => {
   try {
-    if (!channel) {
-      await createChannel()
-    }
     const exchangeName = "VERIFY_ADMIN"
     await channel.assertQueue(exchangeName, { durable: false })
-
-    channel.consume(exchangeName, (data: any) => {
-      const result = JSON.parse(data.content)
-      console.log(result)
-      return result
-    })
+    let passedStatus = false
 
     channel.sendToQueue(
       exchangeName,
       Buffer.from(JSON.stringify({ token: authHeader }))
     )
+
+    channel.consume(exchangeName, (data: any) => {
+      const result = JSON.parse(data.content)
+      passedStatus = result.passed
+    })
+
+    return passedStatus
   } catch (err: any) {
     console.log("Error in verifying admin", err.message)
     return false
